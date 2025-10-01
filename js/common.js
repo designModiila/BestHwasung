@@ -1,3 +1,4 @@
+
 /* =========================
  * common.js (intro + value 심플 애니메이션 · 복붙용)
  * - Swiper
@@ -33,12 +34,12 @@
     }
 
     /* =========================
-     * 2) Lenis (부드러운 스크롤)
+     * 2) Lenis
      * ========================= */
     let lenis = null;
     if (window.Lenis) {
       lenis = new Lenis({
-        duration: 0.9,
+        duration: 0.8,
         smoothWheel: true,
         smoothTouch: false
       });
@@ -58,10 +59,7 @@
     /* =========================
      * 3) GSAP / ScrollTrigger
      * ========================= */
-    if (!window.gsap || !window.ScrollTrigger) {
-      console.warn('[common.js] GSAP/ScrollTrigger가 로드되지 않았습니다.');
-      return;
-    }
+
     gsap.registerPlugin(ScrollTrigger);
     if (lenis) lenis.on('scroll', ScrollTrigger.update);
 
@@ -108,25 +106,38 @@
 
 
 
+
+    
+
+
+
+
+
+
+
+
+
+
+
     /* =========================
-     * (옵션) intro → container 덮는 모션
+     * container 덮는 모션
      * ========================= */
     /*
     const sectionContainer = document.querySelector('.container');
     if (sectionContainer) {
       gsap.fromTo(sectionContainer,
-        { y: '0vh' },
+        { y: '0', scaleX:0.9 },
         {
           y: '-100vh',
+          scaleX:1,
           ease: 'none',
           immediateRender: false,
           scrollTrigger: {
-            trigger: '.intro',
+            trigger: '.keyword01',
             start: 'bottom bottom',
             end: 'bottom top',
             scrub: true,
             markers: false
-            // Lenis 사용 시에도 scroller 옵션 생략 (window 스크롤)
           }
         }
       );
@@ -160,3 +171,31 @@
     window.appLenis = lenis;
   });
 })();
+
+
+
+
+
+// gsap.set('#value01 .section-title', { autoAlpha: 0, y: 50 });    
+// gsap.set('#value01 .keyword', { autoAlpha: 0, y: 50 });    
+// gsap.set('#value01 .video-wrap', {y: '100vh', scaleX: 0.9 });    
+
+// const value1 = gsap.timeline();
+// value1.to('#value01 .section-title', {autoAlpha: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.3}, 0)
+//       .to('#value01 .keyword', {autoAlpha: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.3}, 0)
+//       .to('#value01 .video-wrap', {y: 0, scaleX: 1 }, 0)
+
+
+// ScrollTrigger.create({
+//   animation: value1,
+//   trigger: '#value01',
+//   start: 'top top',
+//   end: '+=2000',
+//   scrub: true,
+//   pin: true,
+//   anticipatePin: 1,
+//   markers: true
+// })
+
+
+

@@ -31,10 +31,29 @@
     <header>
         <div class="logo"><a href="#">Best Hwasung</a></div>
         <ul class="menu-wrap">
-            <li><a href="#">베스트화성</a></li>
-            <li><a href="#">제품소개</a></li>
-            <li><a href="#">사업소개</a></li>
-            <li><a href="#">고객지원</a></li>
+            <li><a href="#">베스트화성</a>
+                <ul class="depth">
+                    <li><a href="#">회사소개</a></li>
+                    <li><a href="#">오시는길</a></li>
+                </ul>
+            </li>
+            <li><a href="#">제품소개</a>
+                <ul class="depth">
+                    <li><a href="#">제품</a></li>
+                </ul>
+            </li>
+            <li><a href="#">사업소개</a>
+                <ul class="depth">
+                    <li><a href="#">제품개발</a></li>
+                    <li><a href="#">생산라인</a></li>
+                </ul>
+            </li>
+            <li><a href="#">고객지원</a>
+                <ul class="depth">
+                    <li><a href="#">제품문의</a></li>
+                    <li><a href="#">OEM, ODM 문의</a></li>
+                </ul>
+            </li>
         </ul>
         <a class="menu-mall" href="#"><p>공식쇼핑몰</p></a>
     </header>
@@ -53,63 +72,92 @@
         </div>  
     </section>
 
-    <div class="container">
-        <section class="value value01">
+    
+    <section class="value" id="value01">
+        
+        <div class="keyword-wrap keyword01">
             <p class="section-title reveal-up">Value</p>
             <div class="keyword">
                 <p class="">품질</p>
-                <div class="line "></div>
+                <div class="line"></div>
                 <p class="">신뢰</p>
             </div>
-            <div class="keyword-bg">
-                <video class="video-background" autoplay muted loop playsinline>
-                    <source src="../images/main_video_02.mp4" type="video/mp4">
-                </video>
-                <div class="overlay"></div>
-                <div class="keyword-text">
-                    <p class="keyword-title">품질에서, 신뢰까지</p>
-                    <p class="keyword-desc">철저한 품질 관리와 책임 있는 제조로, 고객이 안심할 수 있는 신뢰를 제공합니다</p>
-                </div>
+        </div>
+        <div class="video-wrap">
+            <video class="video-background" autoplay muted loop playsinline>
+                <source src="../images/main_video_02.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+            <div class="video-text">
+                <p class="video-title">품질에서, 신뢰까지</p>
+                <p class="video-desc">철저한 품질 관리와 책임 있는 제조로, 고객이 안심할 수 있는 신뢰를 제공합니다</p>
             </div>
-        </section>
-    
-        <section class="value value02">
+        </div>
+
+        <div class="keyword-wrap keyword02">
             <div class="keyword">
-                <p>정직</p>
+                <p class="">정직</p> 
                 <div class="line"></div>
-                <p>정밀</p>
+                <p class="">정밀</p>
             </div>
-            <div class="keyword-bg">
-                <video class="video-background" autoplay muted loop playsinline>
-                    <source src="../images/main_video_03.mp4" type="video/mp4">
-                </video>
-                <div class="overlay"></div>
-                <div class="keyword-text">
-                    <p class="keyword-title">정직한 마음, 정밀한 기술</p>
-                    <p class="keyword-desc">정직을 바탕으로 쌓아온 기술력과 세심한 공정 관리로, 칫솔 한 개에도 최고의 가치를 담습니다</p>
-                </div>
+        </div>
+        <div class="video-wrap">
+            <video class="video-background" autoplay muted loop playsinline>
+                <source src="../images/main_video_03.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+            <div class="video-text">
+                <p class="video-title">정직한 마음, 정밀한 기술</p>
+                <p class="video-desc">정직을 바탕으로 쌓아온 기술력과 세심한 공정 관리로, 칫솔 한 개에도 최고의 가치를 담습니다</p>
             </div>
-        </section>
+        </div>
     
-        <section class="value value03">
+        <div class="keyword-wrap keyword03">
             <div class="keyword">
-                <p>자연</p>
+                <p class="">자연</p>
                 <div class="line"></div>
-                <p>미래</p>
+                <p class="">미래</p>
             </div>
-            <div class="keyword-bg">
-                <video class="video-background" autoplay muted loop playsinline>
-                    <source src="../images/main_video_04.mp4" type="video/mp4">
-                </video>
-                <div class="overlay"></div>
-                <div class="keyword-text">
-                    <p class="keyword-title">자연과 함께, 미래와 함께</p>
-                    <p class="keyword-desc">지속 가능한 소재와 친환경적인 제조 방식을 통해, 사람과 환경이 공존하는 미래를 만들어갑니다</p>
+        </div>
+        <div class="video-wrap">
+            <video class="video-background" autoplay muted loop playsinline>
+                <source src="../images/main_video_04.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+            <div class="video-text">
+                <p class="video-title">자연과 함께, 미래와 함께</p>
+                <p class="video-desc">지속 가능한 소재와 친환경적인 제조 방식을 통해, 사람과 환경이 공존하는 미래를 만들어갑니다</p>
+            </div>
+        </div>
+    </section>
+        
+       
+
+    
+         <!-- <section class="value value01">
+            <div class="keyword01">
+                <p class="section-title reveal-up">Value</p>
+                <div class="keyword">
+                    <p class="">품질</p>
+                    <div class="line"></div>
+                    <p class="">신뢰</p>
                 </div>
             </div>
-        </section>
-    
-        <section class="product section-inner">
+            <div>
+                <div class="keyword-bg">
+                    <video class="video-background" autoplay muted loop playsinline>
+                        <source src="../images/main_video_02.mp4" type="video/mp4">
+                    </video>
+                    <div class="overlay"></div>
+                    <div class="keyword-text">
+                        <p class="keyword-title">품질에서, 신뢰까지</p>
+                        <p class="keyword-desc">철저한 품질 관리와 책임 있는 제조로, 고객이 안심할 수 있는 신뢰를 제공합니다</p>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <section class="product main-inner">
             <div class="title-wrap">
                 <div class="section-title">Product</div>
                 <div class="section-desc">모든 고객에게 안심할 수 있는 제품만을 전하겠습니다</div>
@@ -176,7 +224,7 @@
             </div>
         </section>
     
-        <section class="client section-inner">
+        <section class="client main-inner">
             <div class="title-wrap">
                 <div class="section-title">Client</div>
                 <div class="section-desc">품질 기준과 생산 역량에서 인정받아,<br>
@@ -250,11 +298,11 @@
                 </div>
             </div>
         </footer>
-    </div>
+
 
 
 <script type="text/javascript" src="../js/common.js"></script>  
-<!-- </body> 바로 위에 -->
+<!-- /body 바로 위에 -->
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"></script>
 
 </body>
