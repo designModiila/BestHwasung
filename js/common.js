@@ -1,11 +1,5 @@
 
-/* =========================
- * common.js (intro + value 심플 애니메이션 · 복붙용)
- * - Swiper
- * - Lenis
- * - GSAP / ScrollTrigger
- * - 섹션 트리거로: .reveal-up(여러 개) → .keyword.reveal-block 순서로 페이드업
- * ========================= */
+
 (function () {
   'use strict';
 
@@ -34,12 +28,12 @@
     }
 
     /* =========================
-     * 2) Lenis
+     * 2) Lenis (부드러운 스크롤)
      * ========================= */
     let lenis = null;
     if (window.Lenis) {
       lenis = new Lenis({
-        duration: 0.8,
+        duration: 0.9,
         smoothWheel: true,
         smoothTouch: false
       });
@@ -56,93 +50,255 @@
       });
     }
 
-    /* =========================
-     * 3) GSAP / ScrollTrigger
-     * ========================= */
-
-    gsap.registerPlugin(ScrollTrigger);
-    if (lenis) lenis.on('scroll', ScrollTrigger.update);
-
-    /* =========================
-     * 4) intro + value 섹션 심플 애니메이션
-     *    - 섹션을 트리거로 사용(absolute 제목도 안전)
-     *    - 섹션 내 .reveal-up들 → 순차 페이드업
-     *    - 이어서 .keyword.reveal-block(있으면) 페이드업
-     * ========================= */
-
-    gsap.set('.reveal-up, .keyword.reveal-block', { autoAlpha: 0, y: 50 });
-
-    const SECTION_SELECTORS = '.intro, .value';
-    gsap.utils.toArray(SECTION_SELECTORS).forEach((sec) => {
-      const ups   = sec.querySelectorAll('.reveal-up');                 // 여러 개 가능 (intro의 h1, p 등)
-      const block = sec.querySelector('.keyword.reveal-block');         // value 섹션에서만 존재
-
-      const tl = gsap.timeline({
-        defaults: { ease: 'power2.out' },
-        scrollTrigger: {
-          trigger: sec,
-          delay: 0.5,
-          start: 'top 60%',                 // 섹션 top이 뷰포트 80%일 때 시작
-          toggleActions: 'play none none none' // 1회 재생, 되돌리지 않음
-          // markers: true,
-        }
-      });
-
-      if (ups.length) {
-        tl.to(ups, { autoAlpha: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.3 }, 0);
-      }
-
-      if (block) {
-        tl.to(block, { autoAlpha: 1, y: 0, duration: 1, delay: 2 }, ups.length ? 0.2 : 0);
-      }
-    });
-
-
-
-
-
-
-
-
-
-
-
     
 
-
-
-
-
-
-
-
-
-
-
     /* =========================
-     * container 덮는 모션
+     * 스크롤 트리거 여기에서 테스트
      * ========================= */
-    /*
-    const sectionContainer = document.querySelector('.container');
-    if (sectionContainer) {
-      gsap.fromTo(sectionContainer,
-        { y: '0', scaleX:0.9 },
-        {
-          y: '-100vh',
-          scaleX:1,
-          ease: 'none',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: '.keyword01',
-            start: 'bottom bottom',
-            end: 'bottom top',
-            scrub: true,
-            markers: false
-          }
-        }
-      );
+
+
+ gsap.registerPlugin(ScrollTrigger);
+
+if (!window.__value01Init) {
+  window.__value01Init = true;
+
+  gsap.set("#value01 .keyword01 .keyword-text", { autoAlpha: 0 });
+  gsap.set("#value01 .keyword01", { columnGap: 0 });
+  gsap.set("#value01 .section-title", { y: 50, autoAlpha: 0 });
+  gsap.set("#value01 .keyword01 .line", { y: 100, autoAlpha: 0 }); 
+  gsap.set("#value01 .keyword01 .line", { scaleX: 0.1, transformOrigin: 'center center' }); 
+  gsap.set("#value01 .video-wrap01", { y: "0vh" });
+  gsap.set("#value01 .video-wrap01 .video-title", { y: 50, autoAlpha: 0 });
+  gsap.set("#value01 .video-wrap01 .video-desc", { y: 50, autoAlpha: 0 });
+
+  const tl1 = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#value01",
+      start: "top top",
+      end: () => "+=" + window.innerHeight * 10, 
+      scrub: true,
+      pin: true,
+      anticipatePin: 1,
+      pinReparent: true,
+      pinSpacing: true
     }
-    */
+  });
+
+  tl1.to("#value01 .section-title", {
+    y: 0,
+    autoAlpha: 1,
+    ease: "power2.out",
+    duration: 1,
+    immediateRender: false
+  });
+
+tl1.to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 })
+  .to("#value01 .keyword01 .line", { scaleX: 1, ease: "sine.inOut", delay:1, duration: 2 })
+  .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 2 }, "<")
+  .to("#value01 .keyword01", { columnGap: '3vw', ease: "sine.inOut", duration: 2 }, "<");
+
+    tl1.to("#value01 .video-wrap01", {
+    y: "-100vh",
+    ease: "none",
+    delay: 2,
+    scrub: 2,
+    duration: 5,
+    immediateRender: false
+  });
+
+  tl1.to("#value01 .video-wrap01 .video-title", {
+    y: 0,
+    autoAlpha: 1,
+    ease: "sine.inOut",
+    duration: 1,
+    immediateRender: false
+  });
+
+  tl1.to("#value01 .video-wrap01 .video-desc", {
+    y: 0,
+    autoAlpha: 1,
+    ease: "sine.inOut",
+    duration: 2,
+    immediateRender: false
+  });
+
+}
+
+
+
+if (!window.__value02Init) {
+  window.__value02Init = true;
+
+  gsap.set("#value02 .keyword02 .keyword-text", { autoAlpha: 0 });
+  gsap.set("#value02 .keyword02", { columnGap: 0 });
+  gsap.set("#value02 .keyword02 .line", { y: 100, autoAlpha: 0 }); 
+  gsap.set("#value02 .keyword02 .line", { scaleX: 0.1, transformOrigin: 'center center' }); 
+  gsap.set("#value02 .video-wrap02", { y: "0vh" });
+  gsap.set("#value02 .video-wrap02 .video-title", { y: 50, autoAlpha: 0 });
+  gsap.set("#value02 .video-wrap02 .video-desc", { y: 50, autoAlpha: 0 });
+
+  const tl2 = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#value02",
+      start: "top top",
+      end: () => "+=" + window.innerHeight * 10, 
+      scrub: true,
+      pin: true,
+      anticipatePin: 1,
+      pinReparent: true,
+      pinSpacing: true
+    }
+  });
+
+
+tl2.to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 })
+  .to("#value02 .keyword02 .line", { scaleX: 1, ease: "sine.inOut", delay:1, duration: 2 })
+  .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 2 }, "<")
+  .to("#value02 .keyword02", { columnGap: '3vw', ease: "sine.inOut", duration: 2 }, "<");
+
+    tl2.to("#value02 .video-wrap02", {
+    y: "-100vh",
+    ease: "none",
+    delay: 2,
+    scrub: 2,
+    duration: 5,
+    immediateRender: false
+  });
+
+  tl2.to("#value02 .video-wrap02 .video-title", {
+    y: 0,
+    autoAlpha: 1,
+    ease: "sine.inOut",
+    duration: 1,
+    immediateRender: false
+  });
+
+  tl2.to("#value02 .video-wrap02 .video-desc", {
+    y: 0,
+    autoAlpha: 1,
+    ease: "sine.inOut",
+    duration: 2,
+    immediateRender: false
+  });
+
+}
+
+
+if (!window.__value03Init) {
+  window.__value03Init = true;
+
+  gsap.set("#value03 .keyword03 .keyword-text", { autoAlpha: 0 });
+  gsap.set("#value03 .keyword03", { columnGap: 0 });
+  gsap.set("#value03 .keyword03 .line", { y: 100, autoAlpha: 0 }); 
+  gsap.set("#value03 .keyword03 .line", { scaleX: 0.1, transformOrigin: 'center center' }); 
+  gsap.set("#value03 .video-wrap03", { y: "0vh" });
+  gsap.set("#value03 .video-wrap03 .video-title", { y: 50, autoAlpha: 0 });
+  gsap.set("#value03 .video-wrap03 .video-desc", { y: 50, autoAlpha: 0 });
+
+  const tl3 = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#value03",
+      start: "top top",
+      end: () => "+=" + window.innerHeight * 10, 
+      scrub: true,
+      pin: true,
+      pinReparent: true,
+      anticipatePin: 1,
+      pinSpacing: true
+    }
+  });
+
+
+tl3.to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 })
+  .to("#value03 .keyword03 .line", { scaleX: 1, ease: "sine.inOut", delay:1, duration: 3 })
+  .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 3 }, "<")
+  .to("#value03 .keyword03", { columnGap: '3vw', ease: "sine.inOut", duration: 3 }, "<");
+
+    tl3.to("#value03 .video-wrap03", {
+    y: "-100vh",
+    ease: "none",
+    delay: 2,
+    scrub: 2,
+    duration: 5,
+    immediateRender: false
+  });
+
+  tl3.to("#value03 .video-wrap03 .video-title", {
+    y: 0,
+    autoAlpha: 1,
+    ease: "sine.inOut",
+    duration: 1,
+    immediateRender: false
+  });
+
+  tl3.to("#value03 .video-wrap03 .video-desc", {
+    y: 0,
+    autoAlpha: 1,
+    ease: "sine.inOut",
+    duration: 2,
+    immediateRender: false
+  });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(() => {
+  const st = ScrollTrigger.getAll();
+  console.log("ST count:", st.length);
+  st.forEach((t, i) => {
+    const trg = t.scroller || window;
+    const pin = t.pin;
+    console.group(`ST[#${i}]`);
+    console.log("trigger:", t.trigger);
+    console.log("pin:", pin);
+    console.log("start/end:", t.start, t.end, "scrub:", !!t.vars.scrub, "pin:", !!t.vars.pin);
+    console.log("scroller:", trg);
+    console.log("pinType:", t.pinType);
+    console.groupEnd();
+  });
+
+  // pin-spacer와 그 크기/마진을 덤프
+  document.querySelectorAll(".pin-spacer").forEach((sp, i) => {
+    const s = getComputedStyle(sp);
+    console.log(`#pin-spacer[${i}]`, sp, {
+      height: s.height, marginTop: s.marginTop, marginBottom: s.marginBottom, position: s.position
+    });
+  });
+})();
+
+
+
+
+
+
+
 
 
     /* =========================
@@ -171,31 +327,4 @@
     window.appLenis = lenis;
   });
 })();
-
-
-
-
-
-// gsap.set('#value01 .section-title', { autoAlpha: 0, y: 50 });    
-// gsap.set('#value01 .keyword', { autoAlpha: 0, y: 50 });    
-// gsap.set('#value01 .video-wrap', {y: '100vh', scaleX: 0.9 });    
-
-// const value1 = gsap.timeline();
-// value1.to('#value01 .section-title', {autoAlpha: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.3}, 0)
-//       .to('#value01 .keyword', {autoAlpha: 1, y: 0, duration: 1, stagger: 0.1, delay: 0.3}, 0)
-//       .to('#value01 .video-wrap', {y: 0, scaleX: 1 }, 0)
-
-
-// ScrollTrigger.create({
-//   animation: value1,
-//   trigger: '#value01',
-//   start: 'top top',
-//   end: '+=2000',
-//   scrub: true,
-//   pin: true,
-//   anticipatePin: 1,
-//   markers: true
-// })
-
-
 
