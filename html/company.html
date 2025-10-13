@@ -29,33 +29,35 @@
     <body>
 
     <header>
-        <div class="logo"><a href="#">Best Hwasung</a></div>
-        <ul class="menu-wrap">
-            <li><a href="#">베스트화성</a>
-                <ul class="depth">
-                    <li><a href="#">회사소개</a></li>
-                    <li><a href="#">오시는길</a></li>
-                </ul>
-            </li>
-            <li><a href="#">제품소개</a>
-                <ul class="depth">
-                    <li><a href="#">제품</a></li>
-                </ul>
-            </li>
-            <li><a href="#">사업소개</a>
-                <ul class="depth">
-                    <li><a href="#">제품개발</a></li>
-                    <li><a href="#">생산라인</a></li>
-                </ul>
-            </li>
-            <li><a href="#">고객지원</a>
-                <ul class="depth">
-                    <li><a href="#">제품문의</a></li>
-                    <li><a href="#">OEM, ODM 문의</a></li>
-                </ul>
-            </li>
-        </ul>
-        <a class="menu-mall" href="#"><p>공식쇼핑몰</p></a>
+        <div class="header-inner">
+            <div class="logo"><a href="#">Best Hwasung</a></div>
+            <ul class="menu-wrap">
+                <li><a href="#">베스트화성</a>
+                    <ul class="depth">
+                        <li><a href="#">회사소개</a></li>
+                        <li><a href="#">오시는길</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">제품소개</a>
+                    <ul class="depth">
+                        <li><a href="#">제품</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">사업소개</a>
+                    <ul class="depth">
+                        <li><a href="#">제품개발</a></li>
+                        <li><a href="#">생산라인</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">고객지원</a>
+                    <ul class="depth">
+                        <li><a href="#">제품문의</a></li>
+                        <li><a href="#">OEM, ODM 문의</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <a class="menu-mall" href="#"><p>공식쇼핑몰</p></a>
+        </div>
     </header>
         
     <div class="sub company">
@@ -63,13 +65,16 @@
             <video class="video-background" autoplay muted loop playsinline>
                 <source src="../images/sub_company_video.mp4" type="video/mp4">
             </video>
-            <div class="breadcrumb">
-                <ul>
-                    <li class="breadcrumb-list"><a href="#">베스트화성</a></li>
-                    <li class="breadcrumb-list"><a href="#">회사개요</a></li>
-                </ul>
+            <div class="overlay"></div>
+            <div class="visual-inner">
+                <div class="breadcrumb">
+                    <ul>
+                        <li class="breadcrumb-list home"><a href="#">베스트화성</a></li>
+                        <li class="breadcrumb-list"><a href="#">회사개요</a></li>
+                    </ul>
+                </div>
+                <p class="visual-text">정직한 품질과 정밀한 기술로 <br>신뢰를 만들어갑니다</p>
             </div>
-            <p class="visual-text">정직한 품질과 정밀한 기술로 <br>신뢰를 만들어갑니다</p>
         </section> 
 
         <section class="overview">
@@ -78,30 +83,32 @@
                     <p class="sub-label">회사개요</p>
                     <p class="sub-title">끊임없는 연구와 혁신으로 <br>구강 건강의 새로운 기준을 만듭니다</p>
                 </div>
-                <div class="overview-detail">
-                    <p class="text">베스트화성은<br>
-                    정밀한 품질관리와 체계적인 시설 운영을 기반으로, <br>
-                    치아 건강과 위생을 위한 완성도 높은 제품을 제공합니다.
-                    <br><br>
-                    국내외 주요 브랜드의 신뢰를 얻은 저희는, ISO 규격 수준의 품질 표준과 무결점 <br>
-                    생산 시스템을 유지하며 OEM·ODM 전 과정에서 안정성과 효율성을 동시에 <br>
-                    실현하며, 제품개발에서부터 사출, 모가공, 식모, 검수, 포장까지 <br>
-                    원스톱 시스템을 갖추고 있습니다.</p>
+                <div>
+                    <div class="overview-detail">
+                        <p class="text">베스트화성은<br>
+                        정밀한 품질관리와 체계적인 시설 운영을 기반으로, <br>
+                        치아 건강과 위생을 위한 완성도 높은 제품을 제공합니다.
+                        <br><br>
+                        국내외 주요 브랜드의 신뢰를 얻은 저희는, ISO 규격 수준의 품질 표준과 무결점 <br>
+                        생산 시스템을 유지하며 OEM·ODM 전 과정에서 안정성과 효율성을 동시에 <br>
+                        실현하며, 제품개발에서부터 사출, 모가공, 식모, 검수, 포장까지 <br>
+                        원스톱 시스템을 갖추고 있습니다.</p>
+                    </div>
+                    <dl>
+                        <div class="facts-row">
+                            <dt class="facts-term">대표이사</dt>
+                            <dt class="facts-value">권성환</dt>
+                        </div>
+                        <div class="facts-row">
+                            <dt class="facts-term">창립일</dt>
+                            <dt class="facts-value">1977년 1월 1일</dt>
+                        </div>
+                        <div class="facts-row">
+                            <dt class="facts-term">임직원</dt>
+                            <dt class="facts-value">35명</dt>
+                        </div>
+                    </dl>
                 </div>
-                <dl>
-                    <div class="facts-row">
-                        <dt class="facts-term">대표이사</dt>
-                        <dt class="facts-value">권성환</dt>
-                    </div>
-                    <div class="facts-row">
-                        <dt class="facts-term">창립일</dt>
-                        <dt class="facts-value">1977년 1월 1일</dt>
-                    </div>
-                    <div class="facts-row">
-                        <dt class="facts-term">임직원</dt>
-                        <dt class="facts-value">35명</dt>
-                    </div>
-                </dl>
             </div>
         </section>
 
@@ -131,7 +138,7 @@
                             <time class="history-year">2023년</time>
                             <div class="history-text">
                                 <p>스마트 팩토리형 설비 도입, 생산 효율 25% 향상</p>
-                                <img src="" alt="">
+                                <img src="../images/sub_img_history.png" alt="">
                             </div>
                         </li>
                         <li>
