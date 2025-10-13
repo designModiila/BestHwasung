@@ -1,14 +1,62 @@
 @charset "UTF-8";
 
-header {position: absolute; top: 0; left: 0; right: 0; width: 100%; height: 105px; z-index: 1000; pointer-events: auto;}
+html { scroll-behavior: auto; }
+header {position: absolute; top: 0; left: 0; right: 0; width: 100%; height: 100px; z-index: 1000; pointer-events: auto;}
 header .header-inner {margin: 0 auto; display: flex; justify-content: space-between; align-items: center; max-width: 1920px; padding: 32px 160px; box-sizing: border-box;}
 header .logo {font-family: "Pretendard"; font-size: 28px; font-weight: 600; color: #fff;}
-header .menu-wrap {display: flex; gap: 60px; margin-left: 149px;}
-header .menu-wrap li a {font-family: "Pretendard"; font-size: 18px; font-weight: 600; color: #fff;}
-header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer;}
-header .menu-mall p {font-family: "Pretendard"; font-size: 16px; font-weight: 600; color: #fff;}
-header .menu-wrap .depth {display: none;}
+/* header .menu-wrap  {display: flex; gap: 60px; margin-left: 149px;}
+header .menu-wrap .depth1 {height: 100px; background-color: #ddd;}
+header .menu-wrap .depth2 {background-color: #000;}
+header .menu-wrap .depth1 a {font-family: "Pretendard"; font-size: 18px; font-weight: 600; color: #fff;}
+header .menu-wrap .depth {} */
 
+#header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer;}
+#header .menu-mall p {font-family: "Pretendard"; font-size: 16px; font-weight: 600; color: #fff;}
+#header{transition: all 0.8s ease; position: absolute; height: 100px;  width: 100%;  top: 0; left: 0; z-index: 9999;}
+#header.on, #header.scroll{background:#fff; border-bottom:1px solid #ddd !important;}
+
+#header {
+  position: absolute; 
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: transform .8s ease;
+  will-change: transform;
+}
+
+#header.head-hide {
+  transform: translateY(-100%);
+}
+
+#header.on { transform: translateY(0) !important; } 
+
+
+
+.gnb_bg {position:absolute; left:0; top:100px; width:100%; height:0; z-index:10; background:#fff;}
+.gnb_bg.on{border-bottom:1px solid #cccccc;}
+
+
+#gnb{position: absolute; text-align: center; width:100%; z-index:99; left: 0; top: 0px;}
+#gnb .depth1{position:relative;}
+#gnb .depth1>li{ margin:0;position: relative; display:inline-block; vertical-align:top; width:160px;} 
+#gnb .depth1>li>a{display: block; font-size: 18px; line-height: 100px; text-align: left; position:relative; font-weight:bold; color: #fff;}
+#gnb .depth1>li>a:hover{font-weight: bold;}
+
+/* #gnb .depth1:hover {border-bottom: solid 1px #E8E8E8; z-index: 10000;} */
+
+
+/* #gnb .depth1>li.on>a{color:#1a70df;} */
+/* #gnb .depth1>li.on>a::after{content:''; display:block; width:100%; height:3px; background:#eee; position:absolute; bottom:0; left:0;} */
+/* #gnb .depth1>li.on .depth2{background:#fafafa;} */
+#header.on a p, 
+#header.scroll a p,
+#header.on a, 
+#header.scroll a,
+#header.on #gnb .depth1>li>a, 
+#header.scroll #gnb .depth1>li>a {color: #000;}
+#gnb .depth2 {position:relative; z-index:9999; height:0px; overflow:hidden;}
+#gnb .depth2 li:nth-of-type(1){margin-top:15px;}
+#gnb .depth2 li a {display:block; width:100%; height:100%; font-size:16px; text-align: left; color:#000000 !important; line-height:2.5; font-weight:normal;}
+#gnb .depth2 li a:hover{font-weight:bold;}
 
 
 
