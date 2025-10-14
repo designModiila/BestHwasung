@@ -170,39 +170,58 @@
 
     // ---------- value01 ----------
     (function(){
-      if (window.__value01Init) return; window.__value01Init = true;
+    if (window.__value01Init) return; window.__value01Init = true;
 
-      gsap.set("#value01 .keyword01 .keyword-text", { autoAlpha: 0 });
-      gsap.set("#value01 .keyword01", { columnGap: 0 });
-      gsap.set("#value01 .section-title", { y: 50, autoAlpha: 0 });
-      gsap.set("#value01 .keyword01 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
-      gsap.set("#value01 .video-wrap01", { y: "0vh" });
-      gsap.set("#value01 .video-wrap01 .video-title", { y: 50, autoAlpha: 0 });
-      gsap.set("#value01 .video-wrap01 .video-desc",  { y: 50, autoAlpha: 0 });
+    gsap.set("#value01 .keyword01 .keyword-text", { autoAlpha: 0 });
+    gsap.set("#value01 .keyword01", { columnGap: 0 });
+    gsap.set("#value01 .section-title", { y: 50, autoAlpha: 0 });
+    gsap.set("#value01 .keyword01 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
+    gsap.set("#value01 .video-wrap01", { y: "0vh" });
+    gsap.set("#value01 .video-wrap01 .video-title", { y: 50, autoAlpha: 0 });
+    gsap.set("#value01 .video-wrap01 .video-desc",  { y: 50, autoAlpha: 0 });
 
-      const tl1 = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#value01",
-          start: "top top",
-          end: () => "+=" + window.innerHeight * 2,
-          scrub: 1,
-          pin: true,
-          pinReparent: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        }
+    /* 1) 핀 + 스크럽 타임라인: 비디오 이동(이후)만 유지 */
+    const tl1 = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#value01",
+        start: "top top",
+        end: () => "+=" + window.innerHeight * 2,
+        scrub: 1,
+        pin: true,
+        pinReparent: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      }
+    });
+
+
+      tl1
+        .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+        .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
+        .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
+
+      /* 2) 자동재생 타임라인: 초반 5개 액션 */
+      const autoTl = gsap.timeline({ paused: true })
+        .to("#value01 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
+        .to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
+        .to("#value01 .keyword01 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
+        .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
+        .to("#value01 .keyword01", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
+
+      /* 3) 핀 구간 안에서 자동재생/역재생 트리거 */
+      ScrollTrigger.create({
+        trigger: "#value01",
+        start: "top top",                          
+        end: () => "+=" + window.innerHeight * 2,  
+        onEnter:      () => autoTl.play(0),
+        onEnterBack:  () => autoTl.play(0),
+        onLeaveBack:  () => autoTl.reverse(),      
+        // onLeave:    () => autoTl.pause(),        // 필요시 아래쪽으로 나갈 때 멈추기
+        invalidateOnRefresh: true
       });
-      
-      tl1.to("#value01 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out"})
-         .to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut"}, "<")
-         .to("#value01 .keyword01 .line", { scaleX: 1, ease: "expo.out", delay: 1})
-         .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out"}, "<")
-         .to("#value01 .keyword01", { columnGap: "3vw", ease: "expo.out"}, "<")
-         .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 1, scrub: true, duration:2 })
-         .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut"})
-         .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut"});
     })();
+
 
     
     // ---------- value02 ----------
@@ -216,6 +235,7 @@
       gsap.set("#value02 .video-wrap02 .video-title", { y: 50, autoAlpha: 0 });
       gsap.set("#value02 .video-wrap02 .video-desc",  { y: 50, autoAlpha: 0 });
 
+      /* 1) 핀 + 스크럽 타임라인: 비디오 이동(이후)만 유지 */
       const tl2 = gsap.timeline({
         scrollTrigger: {
           trigger: "#value02",
@@ -230,13 +250,30 @@
         }
       });
 
-      tl2.to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut"}, "<")
-         .to("#value02 .keyword02 .line", { scaleX: 1, ease: "expo.out", delay: 1})
-         .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out"}, "<")
-         .to("#value02 .keyword02", { columnGap: "3vw", ease: "expo.out"}, "<")
-         .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 1, scrub: true, duration:2 })
-         .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut"})
-         .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut"});
+
+      tl2
+        .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+        .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
+        .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
+
+      /* 2) 자동재생 타임라인: 초반 5개 액션 */
+      const autoTl = gsap.timeline({ paused: true })
+        .to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
+        .to("#value02 .keyword02 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
+        .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
+        .to("#value02 .keyword02", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
+
+      /* 3) 핀 구간 안에서 자동재생/역재생 트리거 */
+      ScrollTrigger.create({
+        trigger: "#value02",
+        start: "top top",                          
+        end: () => "+=" + window.innerHeight * 2,  
+        onEnter:      () => autoTl.play(0),
+        onEnterBack:  () => autoTl.play(0),
+        onLeaveBack:  () => autoTl.reverse(),      
+        // onLeave:    () => autoTl.pause(),        // 필요시 아래쪽으로 나갈 때 멈추기
+        invalidateOnRefresh: true
+      });
     })();
 
     // ---------- value03 ----------
@@ -250,6 +287,7 @@
       gsap.set("#value03 .video-wrap03 .video-title", { y: 50, autoAlpha: 0 });
       gsap.set("#value03 .video-wrap03 .video-desc",  { y: 50, autoAlpha: 0 });
 
+      /* 1) 핀 + 스크럽 타임라인: 비디오 이동(이후)만 유지 */
       const tl3 = gsap.timeline({
         scrollTrigger: {
           trigger: "#value03",
@@ -264,14 +302,32 @@
         }
       });
 
-      tl3.to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut"}, "<")
-         .to("#value03 .keyword03 .line", { scaleX: 1, ease: "expo.out", delay: 1})
-         .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out"}, "<")
-         .to("#value03 .keyword03", { columnGap: "3vw", ease: "expo.out"}, "<")
-         .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 1, scrub: true, duration:2 })
-         .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut"})
-         .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut"});
+
+      tl3
+        .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+        .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
+        .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
+
+      /* 2) 자동재생 타임라인: 초반 5개 액션 */
+      const autoTl = gsap.timeline({ paused: true })
+        .to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
+        .to("#value03 .keyword03 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
+        .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
+        .to("#value03 .keyword03", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
+
+      /* 3) 핀 구간 안에서 자동재생/역재생 트리거 */
+      ScrollTrigger.create({
+        trigger: "#value03",
+        start: "top top",                          
+        end: () => "+=" + window.innerHeight * 2,  
+        onEnter:      () => autoTl.play(0),
+        onEnterBack:  () => autoTl.play(0),
+        onLeaveBack:  () => autoTl.reverse(),      
+        // onLeave:    () => autoTl.pause(),        // 필요시 아래쪽으로 나갈 때 멈추기
+        invalidateOnRefresh: true
+      });
     })();
+    
 
     /* =========================
      * 5) 미디어 로딩/리사이즈 후 갱신
