@@ -111,6 +111,7 @@
       // });
     })();
 
+    
 
     /* =========================
      * 4) Value 타임라인 생성
@@ -134,7 +135,7 @@
         scrollTrigger: {
           trigger: "#value01",
           start: "top top",
-          end: () => "+=" + window.innerHeight * 10,
+          end: () => "+=" + window.innerHeight * 2,
           scrub: true,
           pin: true,
           pinReparent: true,
@@ -143,14 +144,14 @@
         }
       });
 
-      tl1.to("#value01 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 1 })
-         .to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 })
-         .to("#value01 .keyword01 .line", { scaleX: 1, ease: "sine.inOut", delay: 1, duration: 2 })
-         .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 2 }, "<")
-         .to("#value01 .keyword01", { columnGap: "3vw", ease: "sine.inOut", duration: 2 }, "<")
-         .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 2, duration: 5 })
-         .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 1 })
-         .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 });
+      tl1.to("#value01 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out"})
+         .to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut"}, "<")
+         .to("#value01 .keyword01 .line", { scaleX: 1, ease: "sine.inOut", delay: 1})
+         .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out"}, "<")
+         .to("#value01 .keyword01", { columnGap: "3vw", ease: "sine.inOut"}, "<")
+         .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 1, scrub: true, duration:2 })
+         .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut"})
+         .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut"});
     })();
 
     // ---------- value02 ----------
@@ -168,7 +169,7 @@
         scrollTrigger: {
           trigger: "#value02",
           start: "top top",
-          end: () => "+=" + window.innerHeight * 10,
+          end: () => "+=" + window.innerHeight * 2,
           scrub: true,
           pin: true,
           pinReparent: true,
@@ -177,13 +178,13 @@
         }
       });
 
-      tl2.to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 })
-         .to("#value02 .keyword02 .line", { scaleX: 1, ease: "sine.inOut", delay: 1, duration: 2 })
-         .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 2 }, "<")
-         .to("#value02 .keyword02", { columnGap: "3vw", ease: "sine.inOut", duration: 2 }, "<")
-         .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 2, duration: 5 })
-         .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 1 })
-         .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 });
+      tl2.to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut"}, "<")
+         .to("#value02 .keyword02 .line", { scaleX: 1, ease: "sine.inOut", delay: 1})
+         .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out"}, "<")
+         .to("#value02 .keyword02", { columnGap: "3vw", ease: "sine.inOut"}, "<")
+         .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 1, scrub: true, duration:2 })
+         .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut"})
+         .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut"});
     })();
 
     // ---------- value03 ----------
@@ -201,7 +202,7 @@
         scrollTrigger: {
           trigger: "#value03",
           start: "top top",
-          end: () => "+=" + window.innerHeight * 10,
+          end: () => "+=" + window.innerHeight * 2,
           scrub: true,
           pin: true,
           pinReparent: true,
@@ -210,13 +211,13 @@
         }
       });
 
-      tl3.to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 })
-         .to("#value03 .keyword03 .line", { scaleX: 1, ease: "sine.inOut", delay: 1, duration: 3 })
-         .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 3 }, "<")
-         .to("#value03 .keyword03", { columnGap: "3vw", ease: "sine.inOut", duration: 3 }, "<")
-         .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 2, duration: 5 })
-         .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 1 })
-         .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 2 });
+      tl3.to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut"}, "<")
+         .to("#value03 .keyword03 .line", { scaleX: 1, ease: "sine.inOut", delay: 1})
+         .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out"}, "<")
+         .to("#value03 .keyword03", { columnGap: "3vw", ease: "sine.inOut"}, "<")
+         .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 1, scrub: true, duration:2 })
+         .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut"})
+         .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut"});
     })();
 
     /* =========================
