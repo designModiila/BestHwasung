@@ -16,8 +16,8 @@
         navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
         breakpoints: { 0:{slidesPerView:1,spaceBetween:12}, 1024:{slidesPerView:2,spaceBetween:0} }
       });
-      swiper.on('resize', () => { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
-      swiper.on('slideChangeTransitionEnd', () => { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+      // swiper.on('resize', () => { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+      // swiper.on('slideChangeTransitionEnd', () => { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
     }
 
     /* =========================
@@ -239,8 +239,8 @@
       });
     }
     refreshOnMediaLoad();
-    window.addEventListener('load', () => ScrollTrigger.refresh());
-    window.addEventListener('resize', () => ScrollTrigger.refresh());
+    // window.addEventListener('load', () => ScrollTrigger.refresh());
+    // window.addEventListener('resize', () => ScrollTrigger.refresh());
 
     // 디버깅 헬퍼 (선택)
     window.dumpST = function(){
