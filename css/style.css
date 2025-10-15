@@ -2,15 +2,15 @@
 
 html { scroll-behavior: auto; }
 header {position: absolute; top: 0; left: 0; right: 0; width: 100%; height: 100px; z-index: 1000; pointer-events: auto;}
-header .header-inner {margin: 0 auto; display: flex; justify-content: space-between; align-items: center; max-width: 1920px; padding: 32px 160px; box-sizing: border-box;}
-header .logo {font-family: "Pretendard"; font-size: 28px; font-weight: 600; color: #fff;}
+header .header-inner {margin: 0 auto; display: flex; justify-content: space-between; align-items: center; max-width: 1920px; padding: 0px 160px; box-sizing: border-box;}
+header .logo {font-family: "Pretendard"; font-size: 28px; font-weight: 600; color: #fff; position: absolute; z-index: 100; top: 30px;}
 /* header .menu-wrap  {display: flex; gap: 60px; margin-left: 149px;}
 header .menu-wrap .depth1 {height: 100px; background-color: #ddd;}
 header .menu-wrap .depth2 {background-color: #000;}
 header .menu-wrap .depth1 a {font-family: "Pretendard"; font-size: 18px; font-weight: 600; color: #fff;}
 header .menu-wrap .depth {} */
 
-#header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer;}
+#header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer; position: absolute; top: 32px; right: 160px;}
 #header .menu-mall p {font-family: "Pretendard"; font-size: 16px; font-weight: 600; color: #fff;}
 #header {
   position: absolute;
@@ -48,9 +48,16 @@ header .menu-wrap .depth {} */
 .gnb_bg.on{border-bottom:1px solid #cccccc;}
 
 
-#gnb{position: absolute; text-align: center; width:100%; z-index:99; left: 0; top: 0px;}
+#gnb{position: absolute; text-align: center; z-index:99; left: 40%; top: 0;}
 #gnb .depth1{position:relative;}
 #gnb .depth1>li{ margin:0;position: relative; display:inline-block; vertical-align:top; width:160px;} 
+
+/* 새로 작성 */
+/* #gnb .depth1 {display: flex;}
+#gnb .depth1 > li {width: 160px;} */
+
+
+
 #gnb .depth1>li>a{display: block; font-size: 18px; line-height: 100px; text-align: left; position:relative; font-weight:bold; color: #fff;}
 #gnb .depth1>li>a:hover{font-weight: bold;}
 

@@ -136,8 +136,8 @@
         $(".gnb_bg").removeClass("on");
       }
 
-      $("#gnb, .logo").on("mouseenter", gnbshow);   // mouseover → mouseenter
-      $("#header").on("mouseleave", gnbhide);        // 헤더 벗어나면 닫기
+      $("#gnb").on("mouseenter", gnbshow);   
+      $("#header").on("mouseleave", gnbhide);      
 
       $("#gnb .depth1>li")
         .on("mouseenter", function(){
@@ -327,7 +327,7 @@
         invalidateOnRefresh: true
       });
     })();
-    
+
 
     /* =========================
      * 5) 미디어 로딩/리사이즈 후 갱신
