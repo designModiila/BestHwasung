@@ -165,7 +165,7 @@
     })();
 
     /* =========================
-     * 4) Value 타임라인들
+     * 4) 메인 Value 타임라인들
      * ========================= */
 
     // ---------- value01 ----------
@@ -366,4 +366,52 @@
       });
     };
   });
+
+  // === 서브Visual 공통 변수 ===
+  const visualConfig = {
+    nav: "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p",             
+    selector: ".visual",             
+    textWrap: ".visual .visual-inner",             
+    video: ".visual .sub-video",       
+    breadcrumb: ".visual .breadcrumb",
+    text: ".visual .visual-text",   
+
+    // 애니메이션 옵션
+    easeIn: "power3.out",
+    easeOut: "power4.out",
+    duration: 1.2,
+    delay: 0.2,
+  };
+
+  (function visualInteraction() {
+    const v = visualConfig;
+
+    // 초기 상태
+    gsap.set([v.nav], { color: "#000" });
+    gsap.set([v.text], { x: "15%", color: "#000" });
+    gsap.set([v.video], {scale: 0.7, y:"400px", transformOrigin: "center center" });
+
+    // 애니메이션 타임라인
+    const tl = gsap.timeline({
+      defaults: { duration: v.duration, ease: v.easeOut },
+      scrollTrigger: {
+        trigger: v.selector,
+        start: "top top",
+        end: "bottom top",
+        scrub: false,
+        pin: true,
+        pinSpacing: true,
+        // once: true,
+      },
+    });
+
+    tl.to(v.overlay, { autoAlpha: 1, duration: 0.8, ease: v.easeIn })
+      .to(v.breadcrumb, { autoAlpha: 1, y: 0, ease: v.easeOut }, "<+0.2")
+      .to(v.text, { autoAlpha: 1, y: 0, ease: v.easeOut }, "<+0.3");
+  })();
+
 })();
+
+
+
+
