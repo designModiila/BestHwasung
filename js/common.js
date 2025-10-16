@@ -367,13 +367,14 @@
     };
   });
 
-  // === 서브Visual 공통 변수 ===
+  // === 서브Visual 공통 ===
   const visualConfig = {
     nav: "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p",             
     selector: ".visual",             
     textWrap: ".visual .visual-inner",             
     video: ".visual .sub-video",       
-    breadcrumb: ".visual .breadcrumb",
+    breadcrumb: ".visual .breadcrumb-list a",
+    homeIcon: ".visual .breadcrumb-list.home",
     text: ".visual .visual-text",   
 
     // 애니메이션 옵션
@@ -388,8 +389,10 @@
 
     // 초기 상태
     gsap.set([v.nav], { color: "#000" });
-    gsap.set([v.text], { x: "15%", color: "#000" });
-    gsap.set([v.video], {scale: 0.7, y:"400px", transformOrigin: "center center" });
+    gsap.set([v.breadcrumb], { color: "#000", "--arrow-color": "#000" });
+    gsap.set([v.homeIcon], {"--arrow-color": "#000" });
+    gsap.set([v.text], {x: "10%", color: "#000" });
+    gsap.set([v.video], {scale: 0.62, y:"600px", transformOrigin: "center top" });
 
     // 애니메이션 타임라인
     const tl = gsap.timeline({
@@ -397,21 +400,133 @@
       scrollTrigger: {
         trigger: v.selector,
         start: "top top",
-        end: "bottom top",
-        scrub: false,
+        end: () => "+=" + window.innerHeight * 2,
+        scrub: true,
         pin: true,
+        toggleAction: "play none none none",
         pinSpacing: true,
         // once: true,
+        markers: true
       },
     });
 
-    tl.to(v.overlay, { autoAlpha: 1, duration: 0.8, ease: v.easeIn })
-      .to(v.breadcrumb, { autoAlpha: 1, y: 0, ease: v.easeOut }, "<+0.2")
-      .to(v.text, { autoAlpha: 1, y: 0, ease: v.easeOut }, "<+0.3");
+    tl.to(v.video, { scale: 1, y:"0", transformOrigin: "center top", duration:3 })
+      .to(v.text, { x: "0", color: "#fff",  duration:3}, "<")
+      .to(v.breadcrumb, { color: "#fff", "--arrow-color": "#fff"},"<+0.2")
+      .to(v.homeIcon, { "--arrow-color": "#fff"},"<")
+      .to(v.nav, { color: "#fff" },"<+0.4")
+      // .to(v.breadcrumb, { autoAlpha: 1, y: 0, ease: v.easeOut }, "<+0.2")
+
   })();
 
+
+  /********************* 
+     기본 페이드인 애니메이션
+   ********************/
+
+  const fadeIn = gsap.utils.toArray('.fade-in');
+    gsap.set(fadeIn, {y: '30%', opacity: 0});
+    fadeIn.forEach(fadeInItem => {
+        gsap.to(fadeInItem, {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.5,
+            stagger: 0.3,
+            scrollTrigger: {
+                trigger: fadeInItem,
+                start: 'top 75%',
+                toggleActions: "play none none none",
+            }
+        });
+    });
+
+    
+gsap.registerPlugin(ScrollTrigger);
+
+document.querySelectorAll('.fade-scope').forEach(scope => {
+  const items = Array.from(scope.querySelectorAll('*')).filter(el => {
+    return el.closest('.fade-scope') === scope;
+  });
+
+  // 초기 상태 (보이지 않게)
+  gsap.set(items, { y: 50, autoAlpha: 0 });
+
+  // 각 요소별로 IntersectionObserver 연결
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // 실제 뷰포트에 들어온 순간 GSAP 애니메이션 실행
+        gsap.to(entry.target, {
+          y: 0,
+          autoAlpha: 1,
+          duration: 1,
+          ease: "power2.out"
+        });
+
+        // 한 번만 실행 (되돌릴 필요 없으면 unobserve)
+        io.unobserve(entry.target);
+      }
+    });
+  }, {
+    root: null,                // 뷰포트 기준
+    threshold: 0.2,            // 요소가 20% 이상 보여야 실행
+    rootMargin: '0px 0px -15% 0px'  // 아래쪽으로 15% 남았을 때 트리거
+  });
+
+  items.forEach(el => io.observe(el));
+});
+
+
+
+(function () {
+  const track = document.getElementById('clientTrack');
+  if (!track) return;
+
+  // 이미 복제되어 있지 않다면 한 번 더 복제 (무한 루프용)
+  if (!track.dataset.cloned) {
+    const clone = track.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true'); // 접근성
+    // 복제된 노드의 자식들만 가져와 track 뒤에 붙임
+    while (clone.firstElementChild) {
+      track.appendChild(clone.firstElementChild);
+    }
+    track.dataset.cloned = 'true';
+  }
+
+  // 속도/시간 자동 계산 (너비에 비례)
+  function setMarqueeDuration() {
+    // 원본 그룹의 실제 너비 = 전체의 절반
+    const totalWidth = track.scrollWidth;
+    const groupWidth = totalWidth / 2;
+
+    // px당 시간(초). 숫자(속도)는 취향에 맞게 조절: 값이 작을수록 빠름
+    const secondsPerPx = 0.02; // 0.02s per px -> 1000px = 20s
+    const duration = Math.max(12, groupWidth * secondsPerPx);
+
+    track.style.animationDuration = `${duration}s`;
+  }
+
+  // 이미지 로드 완료 후 정확한 너비 재계산
+  function whenImagesReady(cb) {
+    const imgs = track.querySelectorAll('img');
+    let remain = imgs.length;
+    if (remain === 0) { cb(); return; }
+    imgs.forEach(img => {
+      if (img.complete) { if (--remain === 0) cb(); }
+      else img.addEventListener('load', () => { if (--remain === 0) cb(); }, { once: true });
+    });
+  }
+
+  whenImagesReady(setMarqueeDuration);
+  window.addEventListener('load', setMarqueeDuration);
+  window.addEventListener('resize', () => {
+    // 리사이즈 시 애니메이션을 잠깐 끊고 재적용하면 끊김 적음
+    track.style.animation = 'none';
+    requestAnimationFrame(() => {
+      track.style.animation = '';
+      setMarqueeDuration();
+    });
+  });
 })();
 
-
-
-
+})();

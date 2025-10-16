@@ -16,73 +16,78 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
         
         
-        <script src="../js/jquery-3.6.0.min.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/swiper.min.js"></script>
-        <script src="../js/swiper-bundle.min.js"></script>
-        <script src="../js/gsap.min.js"></script>
-        <script src="../js/scrollTrigger.min.js"></script>
+        <script src="../js/verdor/jquery-3.6.0.min.js"></script>
+        <script src="../js/verdor/jquery-ui.min.js"></script>
+        <script src="../js/verdor/swiper.min.js"></script>
+        <script src="../js/verdor/swiper-bundle.min.js"></script>
+        <script src="../js/verdor/gsap.min.js"></script>
+        <script src="../js/verdor/scrollTrigger.min.js"></script>
+        <script src="../js/verdor/split/split.js"></script>
+        <script src="../js/verdor/split/SplitType.js"></script>
+        <script src="https://unpkg.com/split-type"></script>
         <script src="../js/common.js"></script>
         
     </head>
 
     <body>
 
-    <header id="header" class="sub-header">
-        <div class="gnb_bg"></div>
-        <div class="header-inner">
-            <div class="logo"><a href="#">Best Hwasung</a></div>
-            <nav id="gnb">
-                <ul class="menu-wrap depth1">
-                    <li><a href="#">베스트화성</a>
-                        <ul class="depth2">
-                            <li><a href="#">회사소개</a></li>
-                            <li><a href="#">오시는길</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">제품소개</a>
-                        <ul class="depth2">
-                            <li><a href="#">제품</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">사업소개</a>
-                        <ul class="depth2">
-                            <li><a href="#">제품개발</a></li>
-                            <li><a href="#">생산라인</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">고객지원</a>
-                        <ul class="depth2">
-                            <li><a href="#">제품문의</a></li>
-                            <li><a href="#">OEM, ODM 문의</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-            <a class="menu-mall" href="#"><p>공식쇼핑몰</p></a>
-        </div>
-    </header>
         
-    <div class="sub company">
-        <section class="visual">
-            <div class="sub-video">
+        <div class="sub company">
+            <section class="visual">
+
+            <header id="header" class="sub-header">
+                <div class="gnb_bg"></div>
+                <div class="header-inner">
+                    <div class="logo"><a href="/html/main.html">Best Hwasung</a></div>
+                    <nav id="gnb">
+                        <ul class="menu-wrap depth1">
+                            <li><a href="/html/company.html">베스트화성</a>
+                                <ul class="depth2">
+                                    <li><a href="/html/company.html">회사소개</a></li>
+                                    <li><a href="#">오시는길</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">제품소개</a>
+                                <ul class="depth2">
+                                    <li><a href="#">제품</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">사업소개</a>
+                                <ul class="depth2">
+                                    <li><a href="#">제품개발</a></li>
+                                    <li><a href="#">생산라인</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">고객지원</a>
+                                <ul class="depth2">
+                                    <li><a href="#">제품문의</a></li>
+                                    <li><a href="#">OEM, ODM 문의</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a class="menu-mall" href="#"><p>공식쇼핑몰</p></a>
+                </div>
+            </header>
+
+            <div class="sub-video fade-scope">
                 <video class="video-background" autoplay muted loop playsinline>
                     <source src="../images/sub_company_video.mp4" type="video/mp4">
                 </video>
                 <div class="overlay"></div>
             </div>
-            <div class="visual-inner">
+            <div class="visual-inner fade-scope">
                 <div class="breadcrumb">
                     <ul>
                         <li class="breadcrumb-list home"><a href="#">베스트화성</a></li>
                         <li class="breadcrumb-list"><a href="#">회사개요</a></li>
                     </ul>
                 </div>
-                <p class="visual-text">정직한 품질과 정밀한 기술로 <br>신뢰를 만들어갑니다</p>
+                <p class="visual-text fade-in">정직한 품질과 정밀한 기술로 <br>신뢰를 만들어갑니다</p>
             </div>
         </section> 
 
-        <section class="overview">
+        <section class="overview fade-scope">
             <div class="sub-inner sub-grid">
                 <div class="sub-header">
                     <p class="sub-label">회사개요</p>
@@ -117,11 +122,11 @@
             </div>
         </section>
 
-        <section class="greeting">
+        <section class="greeting fade-scope">
             <div class="sub-inner">
                 <p class="sub-label">대표이사 인사말</p>
                 <p class="greeting-header">품질은 곧 우리의 약속입니다</p>
-                <p class="greeting-text">
+                <p class="greeting-text greeting-ani">
                     당사는 원자재 입고부터 완제품 출고까지, <br>
                     단 한 치의 오차도 허용하지 않는 관리 시스템을 운영합니다. <br>
                     모든 고객에게 안심할 수 있는 제품만을 전하겠습니다.
@@ -130,7 +135,7 @@
             </div>
         </section>
 
-        <section class="history">
+        <section class="history fade-scope">
             <div class="sub-inner sub-grid">
                 <div class="sub-header">
                     <p class="sub-label">연혁</p>
@@ -179,28 +184,34 @@
             </div>
         </section>
 
-        <section class="sub-client">
+        <section class="sub-client fade-scope">
             <div class="sub-inner">
                 <div class="sub-header">
-                    <p class="sub-label">고객사</p>
-                    <p class="sub-title">파트너와 함께 <br>가치를 만들어갑니다</p>
+                <p class="sub-label">고객사</p>
+                <p class="sub-title">파트너와 함께 <br>가치를 만들어갑니다</p>
                 </div>
-                <div class="client-detail">
-                    <div class="client-box">
+
+                <!-- 래퍼 추가 -->
+                <div class="client-marquee">
+                    <div class="client-track" id="clientTrack">
+                        <div class="client-box">
                         <img src="../images/main_client_01.png" alt="logo">
                         <p>국내 대표 생활용품 기업, 다양한 OEM 칫솔 공급</p>
-                    </div>
-                    <div class="client-box">
+                        </div>
+                        <div class="client-box">
                         <img src="../images/main_client_02.png" alt="logo">
                         <p>프리미엄 구강케어 브랜드, OEM/ODM 협력</p>
-                    </div>
-                    <div class="client-box">
+                        </div>
+                        <div class="client-box">
                         <img src="../images/main_client_03.png" alt="logo">
                         <p>프리미엄 구강케어 브랜드, OEM/ODM 협력</p>
+                        </div>
+                        <!-- 필요 시 더 추가 -->
                     </div>
                 </div>
             </div>
         </section>
+
     </div>
     
 
@@ -266,6 +277,50 @@
 <script type="text/javascript" src="../js/common.js"></script>  
 <!-- /body 바로 위에 -->
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    
+    gsap.registerPlugin(ScrollTrigger);
+
+    const greeting = document.querySelector(".greeting");
+
+    function createScrollTrigger(targetSelector) {
+        let target = document.querySelector(targetSelector);
+        if (!target) return;
+
+        let split = new SplitType(target, { type: "lines" });
+        let lines = split.lines;
+
+        ScrollTrigger.create({
+    trigger: greeting,
+    start: "top top",
+    end: "bottom+=100% top",
+    pin: true,          // ✅ 섹션 고정
+    scrub: true,        // 부드러운 연동
+    markers: false,
+    onUpdate: (self) => {
+        const progress = self.progress;
+        lines.forEach((line, i) => {
+        const ratio = (i + 1) / lines.length;
+        const prevRatio = i / lines.length;
+        if (progress >= prevRatio && progress < ratio) {
+            gsap.to(line, { color: "#fff", duration: 0.5, overwrite: "auto" });
+        } else {
+            gsap.to(line, { color: "#777", duration: 0.5, overwrite: "auto" });
+        }
+        });
+    },
+    });
+
+  }
+
+  createScrollTrigger(".greeting .greeting-ani");
+
+  
+
+});
+</script>
 
 </body>
 </html>
