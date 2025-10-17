@@ -302,20 +302,40 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
   animation: scroll var(--dur, 20s) linear infinite;
 }
 
-/* 이미지/인라인 공백 영향 제거 */
 .client-box img { display:block; }
 
-/* 절대 좌우 그라데이션이 리플로우 유발하지 않도록 */
+/* 좌우 그라데이션이 리플로우 유발하지 않도록 */
 .client-track-wrap::before,
 .client-track-wrap::after { contain: strict; }
-/* 호버 시 일시정지(원하면 주석 해제)
-.client-marquee:hover .client-track { animation-play-state: paused; }
-*/
 
 @keyframes scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+
+
+/* 오시는길 */
+
+.sub .map-info .info {margin-top: 76px;}
+.sub .map-info .info .info-address {font-family: "Pretendard"; font-size: 24px; font-weight: 500; line-height: 1.3; color: #000;}
+.sub .map-info .info .info-others {margin-top: 20px; margin-bottom: 85px; font-family: "Pretendard"; font-size: 16px; font-weight: 300; line-height: 1.3; color: #000;}
+.sub .map-info .info .info-others span {margin-right: 15px;}
+.sub .map {position: relative; width: 100%; height: 654px;}
+
+.root_daum_roughmap .wrap_map {height: 100%;}
+.root_daum_roughmap,
+.root_daum_roughmap .wrap_map,
+.root_daum_roughmap .map_container {width: 100% !important;height: 100% !important;}
+.root_daum_roughmap .wrap_controllers {display: none;}
+.root_daum_roughmap .cont .section.lst {display: none;}
+
+
+
+
+
+
+
 
 
 
