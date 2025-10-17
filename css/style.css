@@ -2,7 +2,7 @@
 
 html { scroll-behavior: auto; }
 header {position: absolute; top: 0; left: 0; right: 0; width: 100%; height: 100px; z-index: 1000; pointer-events: auto;}
-header .header-inner {margin: 0 auto; display: flex; justify-content: space-between; align-items: center; max-width: 1920px; padding: 0px 160px; box-sizing: border-box;}
+header .header-inner {margin: 0 auto; display: flex; justify-content: space-between; align-items: center; max-width: 1920px; padding: 0px 8.33vw; box-sizing: border-box;}
 header .logo {font-family: "Pretendard"; font-size: 28px; font-weight: 600; color: #fff; position: absolute; z-index: 100; top: 30px;}
 /* header .menu-wrap  {display: flex; gap: 60px; margin-left: 149px;}
 header .menu-wrap .depth1 {height: 100px; background-color: #ddd;}
@@ -10,7 +10,7 @@ header .menu-wrap .depth2 {background-color: #000;}
 header .menu-wrap .depth1 a {font-family: "Pretendard"; font-size: 18px; font-weight: 600; color: #fff;}
 header .menu-wrap .depth {} */
 
-#header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer; position: absolute; top: 32px; right: 160px;}
+#header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer; position: absolute; top: 32px; right: 8.33vw;}
 #header .menu-mall p {font-family: "Pretendard"; font-size: 16px; font-weight: 600; color: #fff;}
 #header {
   position: absolute;
@@ -78,6 +78,11 @@ header .menu-wrap .depth {} */
 #gnb .depth2 li a {display:block; width:100%; height:100%; font-size:16px; text-align: left; color:#000000 !important; line-height:2.5; font-weight:normal;}
 #gnb .depth2 li a:hover{font-weight:bold;}
 
+/* 강제 구간엔 전환 꺼두기 */
+.gnb-no-transition .gnb-color-target {
+  transition: none !important;
+}
+
 
 
 html, body { height: 100%; font-family: "Pretendard";}
@@ -96,7 +101,7 @@ html, body { height: 100%; font-family: "Pretendard";}
 .container span {font-family: "Pretendard"; font-weight: 400; color: #111;}
 
 .intro {position: relative; width: 100%; height: 100vh; overflow: hidden;}
-.intro .main-text {position: absolute; width: 100%; height: 100vh; padding-top:60vh; padding-left: 160px; z-index: 20;}
+.intro .main-text {position: absolute; width: 100%; height: 100vh; padding-top:60vh; padding-left: 8.33vw; z-index: 20;}
 .intro .video-background {position: absolute; width: 100%; height: 100vh; object-fit: cover; z-index: -2;}
 .intro h1 {font-size: 60px; font-weight: 600; line-height: 1.5; color: #fff;}
 .intro .main-desc {font-size: 20px; font-weight: 400; line-height: 1.5; color: #fff;}
@@ -104,7 +109,7 @@ html, body { height: 100%; font-family: "Pretendard";}
 
 
 
-.main-inner {padding: 240px 160px;}
+.main-inner {padding: 240px 8.33vw;}
 .section-title {font-family: "Pretendard"; font-size: 96px; font-weight: 700; line-height: auto;}
 .section-desc {margin-top: 20px; font-family: "Pretendard"; font-size: 20px; font-weight: 400; line-height: 1.3;}
 
@@ -207,8 +212,7 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
 .sub-video {
   display: block;
   position: relative;
-  will-change: transform;
-  transform: translateZ(0);
+  margin: 0 auto;
   width: 100%; height: 100vh;
   z-index: 0;
 }
@@ -216,16 +220,17 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
 .sub .visual .video-background {width: 100%; height: 100%; object-fit: cover;}
 .sub .visual .overlay {position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 10;}
 .sub .visual .visual-inner { position: absolute; top: 0; left: 0; right: 0; margin: 0 auto; width: 100%; max-width: 1920px; padding: 234px 0; z-index: 20; box-sizing: border-box;}
-.sub .visual .breadcrumb {padding: 0 160px; margin: 0 auto;  max-width: 1920px;}
+.sub .visual .breadcrumb {padding: 0 8.33vw; margin: 0 auto;  max-width: 1920px;}
 .sub .visual .breadcrumb ul {display: flex; width: 100%; align-items: center; gap: 37px;}
 .sub .visual .breadcrumb-list a {position: relative; font-family: "Pretendard"; font-size: 16px; font-weight: 600; line-height: 1; color: #fff;}
 .sub .visual .breadcrumb-list a::after {content: '';position: absolute;right: -18px;top: 50%;transform: translateY(-50%);width: 10px;height: 10px;background-color: var(--arrow-color, #fff); /* 색상 제어용 변수 */mask: url(../images/icon_breadcrumb_arrow.svg) no-repeat center / contain;-webkit-mask: url(../images/icon_breadcrumb_arrow.svg) no-repeat center / contain;}
 .sub .visual .breadcrumb-list.home {position: relative;}
 .sub .visual .breadcrumb-list.home::before {content: ''; position: absolute; left: 0; top: 45%; width: 24px; height: 24px; transform: translateY(-50%); background-color: var(--arrow-color, #fff); mask: url(../images/icon_breadcrumb_home.svg) no-repeat center / contain; -webkit-mask: url(../images/icon_breadcrumb_home.svg) no-repeat center / contain;}
 .sub .visual .breadcrumb-list.home a {margin-left: 43px;}
-.sub .visual .visual-text {margin-top: 100px; padding: 0 160px; font-family: "Pretendard"; font-size: 64px; font-weight: 600; color: #fff; z-index: 20;}
+.sub .visual .visual-text-wrap {margin: 100px auto 0; display: block; width: 100%; max-width: 1600px; z-index: 20;}
+.sub .visual .visual-text {font-family: "Pretendard"; font-size: 64px; font-weight: 600; color: #fff;}
 
-.sub-inner {margin: 0 auto; max-width: 1920px; padding: 140px 295px 235px; box-sizing: border-box;}
+.sub-inner {margin: 0 auto; max-width: 1920px; padding: 140px 15.36vw 235px; box-sizing: border-box;}
 .sub-grid {display: flex; justify-content: space-between; gap: 80px;}
 .sub .sub-label {font-family: "Pretendard"; font-size: 24px; font-weight: 600; color: #000;}
 .sub .sub-title {margin-top: 36px; font-family: "Pretendard"; font-size: 40px; font-weight: 600; color: #000; word-break: keep-all;}
@@ -256,61 +261,67 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
 
 .sub .sub-client .sub-inner {/*padding: 140px 0px 235px 295px;*/padding-top: 0; padding-right: 0;}
 .sub .client-detail {margin-top: 51px; display: flex; gap: 20px; overflow: hidden;}
-.sub .client-box {margin: 3px; padding: 32px 44px 36px; width: 509px; height: 147px; flex-shrink: 0; background: #FFF; box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12); box-sizing: border-box;}
+.sub .client-box {margin: 3px 0; padding: 32px 44px 36px; width: 509px; height: 147px; flex-shrink: 0; background: #FFF; box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12); box-sizing: border-box;}
 .sub .client-box > p {margin-top: 24px; font-family: "Pretendard"; font-weight: 300; font-size: clamp(16px, 1.3vw, 20px); color: #000;}
 
-/* 바깥 래퍼: 넘치는 부분 숨김 */
-.client-marquee {
-  margin-top: 51px;
-  overflow: hidden;
-  position: relative;
-  /* 여백/배경은 페이지 스타일에 맞춰 조정 */
+.client-track-wrap {
+  margin-top: 51px; position: relative;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;}
+  
+  .client-track-wrap::before,
+  .client-track-wrap::after{
+  position:absolute;
+  background-image:linear-gradient(to right,rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  content:'';
+  height:100%;width:3%;
+  z-index:2;pointer-events:none;
+}
+.client-track-wrap::before{
+  left:0;
+  top:0;
+}
+.client-track-wrap::after{
+  right:0;
+  top:0;
+  transform:rotateZ(180deg);
 }
 
-/* 트랙: 가로로 나열 + 애니메이션 */
 .client-track {
+  transform: translate3d(0,0,0);     /* 합성 계층 확보 */
+  backface-visibility: hidden;
+  will-change: transform;
   display: flex;
   align-items: center;
-  gap: clamp(16px, 4vw, 20px);
-  width: max-content;                   /* 콘텐츠 너비만큼 */
-  animation: client-marquee 22s linear infinite;
+  gap: 20px;
+  justify-content: flex-start;  
+  width: max-content;           
+  will-change: transform;
+  animation: scroll var(--dur, 20s) linear infinite;
 }
 
-/* 항목: 이미지 크기 통일 권장 */
-/* .client-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  white-space: nowrap;                  
-} */
-/* .client-box img {
-  height: clamp(28px, 4vw, 48px);      
-  width: auto;
-  display: block;
-} */
+/* 이미지/인라인 공백 영향 제거 */
+.client-box img { display:block; }
 
-/* 호버 시 일시정지 */
-.client-marquee:hover .client-track {
-  animation-play-state: paused;
-}
+/* 절대 좌우 그라데이션이 리플로우 유발하지 않도록 */
+.client-track-wrap::before,
+.client-track-wrap::after { contain: strict; }
+/* 호버 시 일시정지(원하면 주석 해제)
+.client-marquee:hover .client-track { animation-play-state: paused; }
+*/
 
-/* 사용자 저감 모션 */
-@media (prefers-reduced-motion: reduce) {
-  .client-track {
-    animation: none;
-  }
-}
-
-/* 두 그룹(원본+복제) 기준으로 한 그룹 너비만큼 이동 */
-@keyframes client-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); } /* 트랙이 '원본+복제' 두 묶음일 때 한 묶음 만큼 */
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 
 
 
-.footer {padding: 240px 160px 78px; width: 100%; font-family: "Pretendard"; color: #fff; background: rgba(12, 12, 43, 0.85); box-sizing: border-box;}
+
+.footer {padding: 240px 8.33vw 78px; width: 100%; font-family: "Pretendard"; color: #fff; background: rgba(12, 12, 43, 0.85); box-sizing: border-box;}
 .footer-inner {max-width: 1920px; margin: 0 auto;}
 .footer .section-title {font-family: "Pretendard"; font-size: 96px; font-weight: 700; line-height: auto; color: #fff;}
 .footer .section-desc {margin-top: 20px; font-family: "Pretendard"; font-size: 20px; font-weight: 400; line-height: 1.3; color: #fff;}

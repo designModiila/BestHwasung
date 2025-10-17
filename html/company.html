@@ -83,7 +83,9 @@
                         <li class="breadcrumb-list"><a href="#">회사개요</a></li>
                     </ul>
                 </div>
-                <p class="visual-text fade-in">정직한 품질과 정밀한 기술로 <br>신뢰를 만들어갑니다</p>
+                <div class="visual-text-wrap">
+                    <p class="visual-text fade-in">정직한 품질과 정밀한 기술로 <br>신뢰를 만들어갑니다</p>
+                </div>
             </div>
         </section> 
 
@@ -184,15 +186,14 @@
             </div>
         </section>
 
-        <section class="sub-client fade-scope">
+        <section class="sub-client">
             <div class="sub-inner">
-                <div class="sub-header">
+                <div class="sub-header fade-scope">
                 <p class="sub-label">고객사</p>
                 <p class="sub-title">파트너와 함께 <br>가치를 만들어갑니다</p>
                 </div>
 
-                <!-- 래퍼 추가 -->
-                <div class="client-marquee">
+                <div class="client-track-wrap">
                     <div class="client-track" id="clientTrack">
                         <div class="client-box">
                         <img src="../images/main_client_01.png" alt="logo">
@@ -206,7 +207,19 @@
                         <img src="../images/main_client_03.png" alt="logo">
                         <p>프리미엄 구강케어 브랜드, OEM/ODM 협력</p>
                         </div>
-                        <!-- 필요 시 더 추가 -->
+                        <!-- 반복 -->
+                        <div class="client-box">
+                        <img src="../images/main_client_01.png" alt="logo">
+                        <p>국내 대표 생활용품 기업, 다양한 OEM 칫솔 공급</p>
+                        </div>
+                        <div class="client-box">
+                        <img src="../images/main_client_02.png" alt="logo">
+                        <p>프리미엄 구강케어 브랜드, OEM/ODM 협력</p>
+                        </div>
+                        <div class="client-box">
+                        <img src="../images/main_client_03.png" alt="logo">
+                        <p>프리미엄 구강케어 브랜드, OEM/ODM 협력</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -279,6 +292,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"></script>
 
 <script>
+/******************
+*   인사말 인터렉션
+******************/
 $(document).ready(function() {
     
     gsap.registerPlugin(ScrollTrigger);
@@ -296,8 +312,8 @@ $(document).ready(function() {
     trigger: greeting,
     start: "top top",
     end: "bottom+=100% top",
-    pin: true,          // ✅ 섹션 고정
-    scrub: true,        // 부드러운 연동
+    pin: true,          
+    scrub: true,       
     markers: false,
     onUpdate: (self) => {
         const progress = self.progress;

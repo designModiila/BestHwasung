@@ -371,11 +371,11 @@
   const visualConfig = {
     nav: "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p",             
     selector: ".visual",             
-    textWrap: ".visual .visual-inner",             
     video: ".visual .sub-video",       
     breadcrumb: ".visual .breadcrumb-list a",
     homeIcon: ".visual .breadcrumb-list.home",
     text: ".visual .visual-text",   
+    textWrap: ".visual .visual-text-wrap",             
 
     // 애니메이션 옵션
     easeIn: "power3.out",
@@ -391,8 +391,9 @@
     gsap.set([v.nav], { color: "#000" });
     gsap.set([v.breadcrumb], { color: "#000", "--arrow-color": "#000" });
     gsap.set([v.homeIcon], {"--arrow-color": "#000" });
-    gsap.set([v.text], {x: "10%", color: "#000" });
-    gsap.set([v.video], {scale: 0.62, y:"600px", transformOrigin: "center top" });
+    gsap.set([v.text], {color: "#000" });
+    gsap.set([v.textWrap], {width: "65vw"});
+    gsap.set([v.video], {width: "65vw", y:"570px" });
 
     // 애니메이션 타임라인
     const tl = gsap.timeline({
@@ -406,12 +407,13 @@
         toggleAction: "play none none none",
         pinSpacing: true,
         // once: true,
-        markers: true
+        // markers: true
       },
     });
 
-    tl.to(v.video, { scale: 1, y:"0", transformOrigin: "center top", duration:3 })
-      .to(v.text, { x: "0", color: "#fff",  duration:3}, "<")
+    tl.to(v.video, { width: "100%", y:"0", duration:3 })
+      .to(v.text, { color: "#fff",  duration:3}, "<")
+      .to(v.textWrap, {width: "81vw"}, "<")
       .to(v.breadcrumb, { color: "#fff", "--arrow-color": "#fff"},"<+0.2")
       .to(v.homeIcon, { "--arrow-color": "#fff"},"<")
       .to(v.nav, { color: "#fff" },"<+0.4")
@@ -420,18 +422,122 @@
   })();
 
 
+    // 서브페이지 헤더 글자색 변경에 따른 색상 오류
+    function startForceBlack() {
+      const targets = document.querySelectorAll(
+        "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p"
+      );
+
+      if (window._gnbTicker) return;
+
+      window._gnbTicker = function forceBlackTick() {
+        targets.forEach(el => el.style.setProperty("color", "#000", "important"));
+        document.documentElement.style.setProperty("--arrow-color", "#000", "important");
+      };
+
+      gsap.ticker.add(window._gnbTicker);
+    }
+
+    function stopForceBlack() {
+      const targets = document.querySelectorAll(
+        "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p"
+      );
+
+      if (window._gnbTicker) {
+        gsap.ticker.remove(window._gnbTicker);
+        window._gnbTicker = null;
+      }
+
+      // 우리가 강제한 스타일만 해제 (GSAP 상태로 복귀)
+      targets.forEach(el => el.style.removeProperty("color"));
+      document.documentElement.style.removeProperty("--arrow-color");
+
+      if (window.visualTL) {
+        const p = window.visualTL.progress();
+        window.visualTL.progress(p);
+      }
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }
+
+      // #gnb에 호버 연결
+      $("#gnb").on("mouseenter", function () {
+        startForceBlack(); 
+      });
+
+      $("#header").on("mouseleave", function () {
+        stopForceBlack();    
+      });
+
+
+  /* =========================
+  * 헤더 깜빡임 없앰
+  * ========================= */
+
+    const SELECTOR = "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p, .visual .breadcrumb-list a";
+
+    function startForceBlack() {
+      document.body.classList.add("gnb-no-transition");
+
+      // 즉시 한 번만 검정으로 (ticker 시작 전, 깜빡임 방지)
+      document.querySelectorAll(SELECTOR).forEach(el=>{
+        el.classList.add("gnb-color-target");
+        el.style.setProperty("color", "#000", "important");
+      });
+      document.documentElement.style.setProperty("--arrow-color", "#000", "important");
+
+      if (window._gnbTicker) return;
+      window._gnbTicker = function () {
+        // 필요할 때만 찍기(값 같으면 다시 쓰지 않음)
+        document.querySelectorAll(SELECTOR).forEach(el=>{
+          if (getComputedStyle(el).color !== "rgb(0, 0, 0)") {
+            el.style.setProperty("color", "#000", "important");
+          }
+        });
+        if (getComputedStyle(document.documentElement).getPropertyValue("--arrow-color").trim() !== "#000") {
+          document.documentElement.style.setProperty("--arrow-color", "#000", "important");
+        }
+      };
+      gsap.ticker.add(window._gnbTicker);
+    }
+
+    function stopForceBlack() {
+      if (window._gnbTicker) {
+        gsap.ticker.remove(window._gnbTicker);
+        window._gnbTicker = null;
+      }
+      // 우리가 건 것만 제거
+      document.querySelectorAll(SELECTOR).forEach(el=>{
+        el.style.removeProperty("color");
+      });
+      document.documentElement.style.removeProperty("--arrow-color");
+
+      // 한 프레임 뒤에 전환 켜기(깜빡임 방지)
+      requestAnimationFrame(()=>{
+        document.body.classList.remove("gnb-no-transition");
+      });
+
+      // 현재 스크롤 상태 재렌더
+      if (window.visualTL) {
+        const p = window.visualTL.progress();
+        window.visualTL.progress(p);
+      }
+    }
+
+
+
   /********************* 
      기본 페이드인 애니메이션
    ********************/
 
   const fadeIn = gsap.utils.toArray('.fade-in');
-    gsap.set(fadeIn, {y: '30%', opacity: 0});
+    gsap.set(fadeIn, {y: 50, opacity: 0});
     fadeIn.forEach(fadeInItem => {
         gsap.to(fadeInItem, {
             y: 0,
             autoAlpha: 1,
-            duration: 0.5,
+            duration: 1,
             stagger: 0.3,
+            ease: "power2.out",
             scrollTrigger: {
                 trigger: fadeInItem,
                 start: 'top 75%',
@@ -448,14 +554,11 @@ document.querySelectorAll('.fade-scope').forEach(scope => {
     return el.closest('.fade-scope') === scope;
   });
 
-  // 초기 상태 (보이지 않게)
   gsap.set(items, { y: 50, autoAlpha: 0 });
 
-  // 각 요소별로 IntersectionObserver 연결
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 실제 뷰포트에 들어온 순간 GSAP 애니메이션 실행
         gsap.to(entry.target, {
           y: 0,
           autoAlpha: 1,
@@ -468,7 +571,7 @@ document.querySelectorAll('.fade-scope').forEach(scope => {
       }
     });
   }, {
-    root: null,                // 뷰포트 기준
+    root: null,               
     threshold: 0.2,            // 요소가 20% 이상 보여야 실행
     rootMargin: '0px 0px -15% 0px'  // 아래쪽으로 15% 남았을 때 트리거
   });
@@ -477,56 +580,5 @@ document.querySelectorAll('.fade-scope').forEach(scope => {
 });
 
 
-
-(function () {
-  const track = document.getElementById('clientTrack');
-  if (!track) return;
-
-  // 이미 복제되어 있지 않다면 한 번 더 복제 (무한 루프용)
-  if (!track.dataset.cloned) {
-    const clone = track.cloneNode(true);
-    clone.setAttribute('aria-hidden', 'true'); // 접근성
-    // 복제된 노드의 자식들만 가져와 track 뒤에 붙임
-    while (clone.firstElementChild) {
-      track.appendChild(clone.firstElementChild);
-    }
-    track.dataset.cloned = 'true';
-  }
-
-  // 속도/시간 자동 계산 (너비에 비례)
-  function setMarqueeDuration() {
-    // 원본 그룹의 실제 너비 = 전체의 절반
-    const totalWidth = track.scrollWidth;
-    const groupWidth = totalWidth / 2;
-
-    // px당 시간(초). 숫자(속도)는 취향에 맞게 조절: 값이 작을수록 빠름
-    const secondsPerPx = 0.02; // 0.02s per px -> 1000px = 20s
-    const duration = Math.max(12, groupWidth * secondsPerPx);
-
-    track.style.animationDuration = `${duration}s`;
-  }
-
-  // 이미지 로드 완료 후 정확한 너비 재계산
-  function whenImagesReady(cb) {
-    const imgs = track.querySelectorAll('img');
-    let remain = imgs.length;
-    if (remain === 0) { cb(); return; }
-    imgs.forEach(img => {
-      if (img.complete) { if (--remain === 0) cb(); }
-      else img.addEventListener('load', () => { if (--remain === 0) cb(); }, { once: true });
-    });
-  }
-
-  whenImagesReady(setMarqueeDuration);
-  window.addEventListener('load', setMarqueeDuration);
-  window.addEventListener('resize', () => {
-    // 리사이즈 시 애니메이션을 잠깐 끊고 재적용하면 끊김 적음
-    track.style.animation = 'none';
-    requestAnimationFrame(() => {
-      track.style.animation = '';
-      setMarqueeDuration();
-    });
-  });
-})();
 
 })();
