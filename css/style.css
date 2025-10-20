@@ -331,7 +331,26 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
 .root_daum_roughmap .cont .section.lst {display: none;}
 
 
-
+/* 사업소개 > 설비현황 */
+.sub.facility .sub-inner {padding: 140px 8.33vw 235px 15.36vw;}
+.sub .tab-menu > ul li.active {border-bottom: 4px solid #000;}
+.sub .tab-menu > ul li.active a {font-weight: 600; color:#000;}
+.sub .tab-content {display: none;}
+.sub .tab-content.active {display: block;}
+.sub .tab-menu > ul {display: flex; gap: 8px;}
+.sub .tab-menu > ul li {padding: 20px 40px; border-bottom: 4px solid #DBDBDB; box-sizing: border-box; transition: all 0.3s ease;}
+.sub .tab-menu > ul li a {font-family: "Pretendard"; font-size: 24px; font-weight: 300; color: #DBDBDB; transition: all 0.3s ease;}
+.sub .tab-content {margin-top: 140px;}
+.sub .tab-content-gap {display: flex; flex-direction: column; gap: clamp(80px, 7.29vw, 140px);}
+.sub .facility-spec {display: flex; justify-content: space-between; align-items:flex-start; gap: clamp(20px, 9.2vw, 177px);}
+.sub .facility-spec .spec-wrap {flex: 1; padding: 40px 0; border-top: 1px dotted #000; border-bottom: 1px dotted #000;}
+.sub .facility-spec .spec-title {font-family: "Pretendard"; font-size: 32px; font-weight: 600; color: #000;}
+.sub .facility-spec .spec-list-wrap {margin-top: 32px; display: flex; flex-direction: column; gap: 20px;}
+.sub .facility-spec .spec-list {display: flex; align-items: center;}
+.sub .facility-spec .spec-term {font-family: "Pretendard"; font-size: 20px; font-weight: 300; color: #000; width: 90px;}
+.sub .facility-spec .spec-desc {font-family: "Pretendard"; font-size: 20px; font-weight: 500; color: #000;}
+.sub .facility-spec .facility-img {width: 32.76vw; overflow: hidden; max-width: 629px;}
+.sub .facility-spec .facility-img img {width: 100%;}
 
 
 
