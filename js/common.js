@@ -124,16 +124,16 @@
         $(".gnb_bg").stop().animate({height:"213px"},300);
         $(".gnb_bg").addClass("on");
         $(".depth2").stop().animate({height:"213px"},300);
-        // 안전 갱신
         safeRefresh();
       }
       function gnbhide(){
         $(".gnb_bg").stop().animate({height:"0px"},300);
-        $(".depth2").stop().animate({height:"0px"},300, function(){
+        $(".depth2").stop().animate({height:"0px"},300) 
+        setTimeout(function(){
           $("#header").removeClass("on");
-          safeRefresh();
-        });
+        }, 300);
         $(".gnb_bg").removeClass("on");
+        safeRefresh();
       }
 
       $("#gnb").on("mouseenter", gnbshow);   
@@ -198,6 +198,9 @@
 
       tl1
         .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+        .to("#value01 .keyword01", { color:"#fff", duration: 2  }, "<+1")
+        .to("#value01 .keyword01 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+        .to("#value01 .keyword01", { opacity: 0  }, "<+1")
         .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
         .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
 
@@ -253,6 +256,9 @@
 
       tl2
         .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+        .to("#value02 .keyword02", { color:"#fff", duration: 2  }, "<+1")
+        .to("#value02 .keyword02 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+        .to("#value02 .keyword02", { opacity: 0  }, "<+1")
         .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
         .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
 
@@ -305,6 +311,9 @@
 
       tl3
         .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+        .to("#value03 .keyword03", { color:"#fff", duration: 2  }, "<+1")
+        .to("#value03 .keyword03 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+        .to("#value03 .keyword03", { opacity: 0  }, "<+1")
         .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
         .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
 
