@@ -4,7 +4,7 @@ html { scroll-behavior: auto; }
 #header .header-inner {margin: 0 auto; display: flex; justify-content: space-between; align-items: center; max-width: 1920px; padding: 0px 8.33vw; box-sizing: border-box;}
 #header .logo {font-family: "Pretendard"; font-size: 28px; font-weight: 600; color: #fff; position: absolute; z-index: 100; top: 30px;}
 
-#header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer; position: absolute; top: 32px; right: 8.33vw;}
+#header .menu-mall {display: flex; justify-content: center; align-items: center; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 999px; cursor: pointer; position: absolute; top: 32px; right: 8.33vw; z-index: 20;}
 #header .menu-mall p {font-family: "Pretendard"; font-size: 16px; font-weight: 600; color: #fff;}
 #header {
   position: absolute;
@@ -17,10 +17,10 @@ html { scroll-behavior: auto; }
   transition: background-color .2s ease, border-color .3s ease;
 }
 
-#header.on {background: #fff; border-bottom: 1px solid #E8E8E8;}
+/* #header.on {border-bottom: 1px solid #E8E8E8;} */
 
 /* #header.head-hide {transform: translateY(-100%);} */
-.gnb_bg {position:absolute; left:0; top:100px; width:100%; height:0; z-index:10; background:#fff;}
+.gnb_bg {position:absolute; left:0; top:0; width:100%; height:0; z-index:10; background:#fff;}
 .gnb_bg.on{border-bottom:1px solid #cccccc;}
 
 
@@ -32,7 +32,8 @@ html { scroll-behavior: auto; }
 #gnb .depth1>li>a:hover{font-weight: bold;}
 
 #header.on a p, 
-#header.on a, 
+#header.on a,
+#header.on .menu-mall p, 
 #header.on #gnb .depth1>li>a, 
 #header.scroll #gnb .depth1>li>a {color: #000;}
 #gnb .depth2 {position:relative; z-index:9999; height:0px; overflow:hidden;}

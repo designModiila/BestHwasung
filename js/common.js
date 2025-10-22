@@ -121,7 +121,7 @@
     (function gnb() {
       function gnbshow(){
         $("#header").addClass("on");
-        $(".gnb_bg").stop().animate({height:"213px"},300);
+        $(".gnb_bg").stop().animate({height:"313px"},300);
         $(".gnb_bg").addClass("on");
         $(".depth2").stop().animate({height:"213px"},300);
         safeRefresh();
@@ -170,170 +170,241 @@
 
     // ---------- value01 ----------
     (function(){
-    if (window.__value01Init) return; window.__value01Init = true;
+      gsap.registerPlugin(ScrollTrigger);
+      const mm = gsap.matchMedia();
 
-    gsap.set("#value01 .keyword01 .keyword-text", { autoAlpha: 0 });
-    gsap.set("#value01 .keyword01", { columnGap: 0 });
-    gsap.set("#value01 .section-title", { y: 50, autoAlpha: 0 });
-    gsap.set("#value01 .keyword01 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
-    gsap.set("#value01 .video-wrap01", { y: "0vh" });
-    gsap.set("#value01 .video-wrap01 .video-title", { y: 50, autoAlpha: 0 });
-    gsap.set("#value01 .video-wrap01 .video-desc",  { y: 50, autoAlpha: 0 });
+      mm.add("(min-width: 769px)", () => {
+        if (window.__value01Init) return;
+        window.__value01Init = true;
 
-    /* 1) 핀 + 스크럽 타임라인: 비디오 이동(이후)만 유지 */
-    const tl1 = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#value01",
-        start: "top top",
-        end: () => "+=" + window.innerHeight * 2,
-        scrub: 1,
-        pin: true,
-        pinReparent: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      }
-    });
+        gsap.set("#value01 .keyword01 .keyword-text", { autoAlpha: 0 });
+        gsap.set("#value01 .keyword01", { columnGap: 0 });
+        gsap.set("#value01 .section-title", { y: 50, autoAlpha: 0 });
+        gsap.set("#value01 .keyword01 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
+        gsap.set("#value01 .video-wrap01", { y: "0vh" });
+        gsap.set("#value01 .video-wrap01 .video-title", { y: 50, autoAlpha: 0 });
+        gsap.set("#value01 .video-wrap01 .video-desc",  { y: 50, autoAlpha: 0 });
 
+        /* 1) 핀 + 스크럽 타임라인 */
+        const tl1 = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#value01",
+            start: "top top",
+            end: () => "+=" + window.innerHeight * 2,
+            scrub: 1,
+            pin: true,
+            pinReparent: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          }
+        });
 
-      tl1
-        .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
-        .to("#value01 .keyword01", { color:"#fff", duration: 2  }, "<+1")
-        .to("#value01 .keyword01 .line", { backgroundColor:"#fff", duration: 2 }, "<")
-        .to("#value01 .keyword01", { opacity: 0  }, "<+1")
-        .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
-        .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
+        tl1
+          .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+          .to("#value01 .keyword01", { color:"#fff", duration: 2 }, "<+1")
+          .to("#value01 .keyword01 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+          .to("#value01 .keyword01", { opacity: 0, delay: 1 }, "<+1")
+          .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
+          .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
 
-      /* 2) 자동재생 타임라인: 초반 5개 액션 */
-      const autoTl = gsap.timeline({ paused: true })
-        .to("#value01 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
-        .to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
-        .to("#value01 .keyword01 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
-        .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
-        .to("#value01 .keyword01", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
+        /* 2) 자동재생 타임라인 */
+        const autoTl = gsap.timeline({ paused: true })
+          .to("#value01 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
+          .to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
+          .to("#value01 .keyword01 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
+          .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
+          .to("#value01 .keyword01", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
 
-      /* 3) 핀 구간 안에서 자동재생/역재생 트리거 */
-      ScrollTrigger.create({
-        trigger: "#value01",
-        start: "top top",                          
-        end: () => "+=" + window.innerHeight * 2,  
-        onEnter:      () => autoTl.play(0),
-        onEnterBack:  () => autoTl.play(0),
-        onLeaveBack:  () => autoTl.reverse(),      
-        // onLeave:    () => autoTl.pause(),        // 필요시 아래쪽으로 나갈 때 멈추기
-        invalidateOnRefresh: true
+        /* 3) 자동재생/역재생 트리거 */
+        ScrollTrigger.create({
+          trigger: "#value01",
+          start: "top top",
+          end: () => "+=" + window.innerHeight * 2,
+          onEnter:      () => autoTl.play(0),
+          onEnterBack:  () => autoTl.play(0),
+          onLeaveBack:  () => autoTl.reverse(),
+          invalidateOnRefresh: true
+        });
+
+        // matchMedia 해제 시 정리
+        return () => {
+          window.__value01Init = false;
+          ScrollTrigger.getAll().forEach(st => st.kill());
+          gsap.globalTimeline.clear();
+        };
+      });
+
+      // 768px 이하일 때: 아무것도 실행 안 함
+      mm.add("(max-width: 768px)", () => {
+        // 모바일에선 애니메이션 미적용
+        return () => {
+          // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
+          ScrollTrigger.getAll().forEach(st => st.kill());
+          gsap.globalTimeline.clear();
+          window.__value01Init = false;
+        };
       });
     })();
+
 
 
     
     // ---------- value02 ----------
     (function(){
-      if (window.__value02Init) return; window.__value02Init = true;
+      gsap.registerPlugin(ScrollTrigger);
+      const mm = gsap.matchMedia();
 
-      gsap.set("#value02 .keyword02 .keyword-text", { autoAlpha: 0 });
-      gsap.set("#value02 .keyword02", { columnGap: 0 });
-      gsap.set("#value02 .keyword02 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
-      gsap.set("#value02 .video-wrap02", { y: "0vh" });
-      gsap.set("#value02 .video-wrap02 .video-title", { y: 50, autoAlpha: 0 });
-      gsap.set("#value02 .video-wrap02 .video-desc",  { y: 50, autoAlpha: 0 });
+      mm.add("(min-width: 769px)", () => {
+        if (window.__value02Init) return;
+        window.__value02Init = true;
 
-      /* 1) 핀 + 스크럽 타임라인: 비디오 이동(이후)만 유지 */
-      const tl2 = gsap.timeline({
-        scrollTrigger: {
+        gsap.set("#value02 .keyword02 .keyword-text", { autoAlpha: 0 });
+        gsap.set("#value02 .keyword02", { columnGap: 0 });
+        gsap.set("#value02 .section-title", { y: 50, autoAlpha: 0 });
+        gsap.set("#value02 .keyword02 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
+        gsap.set("#value02 .video-wrap02", { y: "0vh" });
+        gsap.set("#value02 .video-wrap02 .video-title", { y: 50, autoAlpha: 0 });
+        gsap.set("#value02 .video-wrap02 .video-desc",  { y: 50, autoAlpha: 0 });
+
+        /* 1) 핀 + 스크럽 타임라인 */
+        const tl1 = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#value02",
+            start: "top top",
+            end: () => "+=" + window.innerHeight * 2,
+            scrub: 1,
+            pin: true,
+            pinReparent: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          }
+        });
+
+        tl1
+          .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+          .to("#value02 .keyword02", { color:"#fff", duration: 2 }, "<+1")
+          .to("#value02 .keyword02 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+          .to("#value02 .keyword02", { opacity: 0, delay: 1 }, "<+1")
+          .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
+          .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
+
+        /* 2) 자동재생 타임라인 */
+        const autoTl = gsap.timeline({ paused: true })
+          .to("#value02 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
+          .to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
+          .to("#value02 .keyword02 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
+          .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
+          .to("#value02 .keyword02", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
+
+        /* 3) 자동재생/역재생 트리거 */
+        ScrollTrigger.create({
           trigger: "#value02",
           start: "top top",
           end: () => "+=" + window.innerHeight * 2,
-          scrub: 1,
-          pin: true,
-          pinReparent: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        }
+          onEnter:      () => autoTl.play(0),
+          onEnterBack:  () => autoTl.play(0),
+          onLeaveBack:  () => autoTl.reverse(),
+          invalidateOnRefresh: true
+        });
+
+        // matchMedia 해제 시 정리
+        return () => {
+          window.__value01Init = false;
+          ScrollTrigger.getAll().forEach(st => st.kill());
+          gsap.globalTimeline.clear();
+        };
       });
 
-
-      tl2
-        .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
-        .to("#value02 .keyword02", { color:"#fff", duration: 2  }, "<+1")
-        .to("#value02 .keyword02 .line", { backgroundColor:"#fff", duration: 2 }, "<")
-        .to("#value02 .keyword02", { opacity: 0  }, "<+1")
-        .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
-        .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
-
-      /* 2) 자동재생 타임라인: 초반 5개 액션 */
-      const autoTl = gsap.timeline({ paused: true })
-        .to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
-        .to("#value02 .keyword02 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
-        .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
-        .to("#value02 .keyword02", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
-
-      /* 3) 핀 구간 안에서 자동재생/역재생 트리거 */
-      ScrollTrigger.create({
-        trigger: "#value02",
-        start: "top top",                          
-        end: () => "+=" + window.innerHeight * 2,  
-        onEnter:      () => autoTl.play(0),
-        onEnterBack:  () => autoTl.play(0),
-        onLeaveBack:  () => autoTl.reverse(),      
-        // onLeave:    () => autoTl.pause(),        // 필요시 아래쪽으로 나갈 때 멈추기
-        invalidateOnRefresh: true
+      // 768px 이하일 때: 아무것도 실행 안 함
+      mm.add("(max-width: 768px)", () => {
+        // 모바일에선 애니메이션 미적용
+        return () => {
+          // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
+          ScrollTrigger.getAll().forEach(st => st.kill());
+          gsap.globalTimeline.clear();
+          window.__value02Init = false;
+        };
       });
     })();
 
     // ---------- value03 ----------
     (function(){
-      if (window.__value03Init) return; window.__value03Init = true;
+      gsap.registerPlugin(ScrollTrigger);
+      const mm = gsap.matchMedia();
 
-      gsap.set("#value03 .keyword03 .keyword-text", { autoAlpha: 0 });
-      gsap.set("#value03 .keyword03", { columnGap: 0 });
-      gsap.set("#value03 .keyword03 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
-      gsap.set("#value03 .video-wrap03", { y: "0vh" });
-      gsap.set("#value03 .video-wrap03 .video-title", { y: 50, autoAlpha: 0 });
-      gsap.set("#value03 .video-wrap03 .video-desc",  { y: 50, autoAlpha: 0 });
+      mm.add("(min-width: 769px)", () => {
+        if (window.__value03Init) return;
+        window.__value03Init = true;
 
-      /* 1) 핀 + 스크럽 타임라인: 비디오 이동(이후)만 유지 */
-      const tl3 = gsap.timeline({
-        scrollTrigger: {
+        gsap.set("#value03 .keyword03 .keyword-text", { autoAlpha: 0 });
+        gsap.set("#value03 .keyword03", { columnGap: 0 });
+        gsap.set("#value03 .section-title", { y: 50, autoAlpha: 0 });
+        gsap.set("#value03 .keyword03 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
+        gsap.set("#value03 .video-wrap03", { y: "0vh" });
+        gsap.set("#value03 .video-wrap03 .video-title", { y: 50, autoAlpha: 0 });
+        gsap.set("#value03 .video-wrap03 .video-desc",  { y: 50, autoAlpha: 0 });
+
+        /* 1) 핀 + 스크럽 타임라인 */
+        const tl1 = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#value03",
+            start: "top top",
+            end: () => "+=" + window.innerHeight * 2,
+            scrub: 1,
+            pin: true,
+            pinReparent: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          }
+        });
+
+        tl1
+          .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
+          .to("#value03 .keyword03", { color:"#fff", duration: 2 }, "<+1")
+          .to("#value03 .keyword03 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+          .to("#value03 .keyword03", { opacity: 0 , delay: 1}, "<+1")
+          .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
+          .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
+
+        /* 2) 자동재생 타임라인 */
+        const autoTl = gsap.timeline({ paused: true })
+          .to("#value03 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
+          .to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
+          .to("#value03 .keyword03 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
+          .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
+          .to("#value03 .keyword03", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
+
+        /* 3) 자동재생/역재생 트리거 */
+        ScrollTrigger.create({
           trigger: "#value03",
           start: "top top",
           end: () => "+=" + window.innerHeight * 2,
-          scrub: 1,
-          pin: true,
-          pinReparent: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        }
+          onEnter:      () => autoTl.play(0),
+          onEnterBack:  () => autoTl.play(0),
+          onLeaveBack:  () => autoTl.reverse(),
+          invalidateOnRefresh: true
+        });
+
+        // matchMedia 해제 시 정리
+        return () => {
+          window.__value01Init = false;
+          ScrollTrigger.getAll().forEach(st => st.kill());
+          gsap.globalTimeline.clear();
+        };
       });
 
-
-      tl3
-        .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
-        .to("#value03 .keyword03", { color:"#fff", duration: 2  }, "<+1")
-        .to("#value03 .keyword03 .line", { backgroundColor:"#fff", duration: 2 }, "<")
-        .to("#value03 .keyword03", { opacity: 0  }, "<+1")
-        .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
-        .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
-
-      /* 2) 자동재생 타임라인: 초반 5개 액션 */
-      const autoTl = gsap.timeline({ paused: true })
-        .to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
-        .to("#value03 .keyword03 .line", { scaleX: 1, ease: "expo.out", duration: 0.9 }, ">0.1")
-        .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
-        .to("#value03 .keyword03", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
-
-      /* 3) 핀 구간 안에서 자동재생/역재생 트리거 */
-      ScrollTrigger.create({
-        trigger: "#value03",
-        start: "top top",                          
-        end: () => "+=" + window.innerHeight * 2,  
-        onEnter:      () => autoTl.play(0),
-        onEnterBack:  () => autoTl.play(0),
-        onLeaveBack:  () => autoTl.reverse(),      
-        // onLeave:    () => autoTl.pause(),        // 필요시 아래쪽으로 나갈 때 멈추기
-        invalidateOnRefresh: true
+      // 768px 이하일 때: 아무것도 실행 안 함
+      mm.add("(max-width: 768px)", () => {
+        // 모바일에선 애니메이션 미적용
+        return () => {
+          // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
+          ScrollTrigger.getAll().forEach(st => st.kill());
+          gsap.globalTimeline.clear();
+          window.__value03Init = false;
+        };
       });
     })();
 
