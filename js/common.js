@@ -164,6 +164,43 @@
       });
     })();
 
+
+
+    
+    // 모바일 메뉴
+
+ 
+
+  const menu = document.querySelector('.mo-menu-container');
+  const openBtn = document.querySelector('.mobile-top .mo-nav');
+  const closeBtn = document.querySelector('.mo-menu-container .mo-close');
+  const backgroundBlack = document.querySelector('.background-b');
+
+  if (!menu || !openBtn || !closeBtn) return;
+
+  const openMenu = () => {
+    menu.classList.add('active');
+    backgroundBlack.classList.add('active');
+    document.body.classList.add('no-scroll'); // ✅ 스크롤 막기
+  };
+
+  const closeMenu = () => {
+    menu.classList.remove('active');
+    backgroundBlack.classList.remove('active');
+    document.body.classList.remove('no-scroll'); // ✅ 스크롤 해제
+  };
+
+  openBtn.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+
+
+
+
+
+
+
+
     /* =========================
      * 4) 메인 Value 타임라인들
      * ========================= */
@@ -173,7 +210,7 @@
       gsap.registerPlugin(ScrollTrigger);
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 769px)", () => {
+      mm.add("(min-width: 768px)", () => {
         if (window.__value01Init) return;
         window.__value01Init = true;
 
@@ -236,7 +273,7 @@
       });
 
       // 768px 이하일 때: 아무것도 실행 안 함
-      mm.add("(max-width: 768px)", () => {
+      mm.add("(max-width: 767px)", () => {
         // 모바일에선 애니메이션 미적용
         return () => {
           // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
@@ -255,7 +292,7 @@
       gsap.registerPlugin(ScrollTrigger);
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 769px)", () => {
+      mm.add("(min-width: 768px)", () => {
         if (window.__value02Init) return;
         window.__value02Init = true;
 
@@ -318,7 +355,7 @@
       });
 
       // 768px 이하일 때: 아무것도 실행 안 함
-      mm.add("(max-width: 768px)", () => {
+      mm.add("(max-width: 767px)", () => {
         // 모바일에선 애니메이션 미적용
         return () => {
           // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
@@ -334,7 +371,7 @@
       gsap.registerPlugin(ScrollTrigger);
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 769px)", () => {
+      mm.add("(min-width: 768px)", () => {
         if (window.__value03Init) return;
         window.__value03Init = true;
 
@@ -397,7 +434,7 @@
       });
 
       // 768px 이하일 때: 아무것도 실행 안 함
-      mm.add("(max-width: 768px)", () => {
+      mm.add("(max-width: 767px)", () => {
         // 모바일에선 애니메이션 미적용
         return () => {
           // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
