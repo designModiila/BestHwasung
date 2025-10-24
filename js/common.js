@@ -47,7 +47,7 @@
         spaceBetween: 0,
         loop: true,
         navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-        // breakpoints: { 0:{slidesPerView:1,spaceBetween:12}, 1024:{slidesPerView:2,spaceBetween:0} },
+        breakpoints: { 0:{slidesPerView:1,spaceBetween:0}, 767:{slidesPerView:1,spaceBetween:0} },
       });
       // Swiper 내부에서 레이아웃 변동 → 안전 갱신
       // swiper.on('resize', safeRefresh);
