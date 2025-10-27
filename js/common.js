@@ -47,7 +47,7 @@
         spaceBetween: 0,
         loop: true,
         navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-        breakpoints: { 0:{slidesPerView:1,spaceBetween:0}, 767:{slidesPerView:1,spaceBetween:0} },
+        breakpoints: { 0:{slidesPerView:1,spaceBetween:0}, 767:{slidesPerView:2,spaceBetween:0} },
       });
       // Swiper 내부에서 레이아웃 변동 → 안전 갱신
       // swiper.on('resize', safeRefresh);
@@ -247,64 +247,88 @@ $(function () {
 
 
 // 헤더 토글: 스크롤 내리면 숨기고, 살짝 올리면 보여주기
-(() => {
-  const header = document.querySelector(".mo-menu-wrapper .mobile-top");
-  const button = header?.querySelector("button");
-  if (!header || !button) return;
-
+(function () {
   const SHOW_ON_SMALL_UP = 12;
   const HIDE_ON_SMALL_DOWN = 4;
   const MIN_SCROLL_TO_ENABLE = 40;
 
-  let lastY = window.pageYOffset || 0;
-  let active = false;
-  let hidden = false;
-  let ticking = false;
+  function setup() {
+    const header = document.querySelector(".mo-menu-wrapper .mobile-top");
+    const button = header?.querySelector("button");
+    if (!header || !button) return false;
 
-  const onScroll = () => {
-    const y = window.pageYOffset || 0;
-    const delta = y - lastY;
+    let lastY = window.pageYOffset || 0;
+    let hidden = false;
+    let ticking = false;
 
-    // 너무 상단이면 무조건 보이게
-    if (y <= MIN_SCROLL_TO_ENABLE) {
-      header.classList.remove("hide", "active");
-      button.classList.remove("active");
-      hidden = false;
-      active = false;
-      lastY = y;
-      return;
-    }
+    const onScroll = () => {
+      try {
+        const y = Math.max(0, window.pageYOffset || 0); // iOS 바운스 보호
+        const delta = y - lastY;
 
-    // 아래로 내리면 숨김
-    if (delta > HIDE_ON_SMALL_DOWN && !hidden) {
-      header.classList.add("hide");
-      header.classList.remove("active");
-      button.classList.remove("active");
-      hidden = true;
-      active = false;
-    }
-    // 위로 올리면 다시 보이기
-    else if (delta < -SHOW_ON_SMALL_UP && hidden) {
-      header.classList.remove("hide");
-      header.classList.add("active");
-      button.classList.add("active");
-      hidden = false;
-      active = true;
-    }
+        // 최상단 부근: 항상 보이기(여기서도 반드시 ticking 해제 필요)
+        if (y <= MIN_SCROLL_TO_ENABLE) {
+          header.classList.remove("hide", "active");
+          button.classList.remove("active");
+          hidden = false;
+          lastY = y;
+          return;
+        }
 
-    lastY = y;
-    ticking = false;
+        // 아래로 내리면 숨김
+        if (delta > HIDE_ON_SMALL_DOWN && !hidden) {
+          header.classList.add("hide");
+          header.classList.remove("active");
+          button.classList.remove("active");
+          hidden = true;
+        }
+        // 위로 살짝 올리면 보이기
+        else if (delta < -SHOW_ON_SMALL_UP && hidden) {
+          header.classList.remove("hide");
+          header.classList.add("active");
+          button.classList.add("active");
+          hidden = false;
+        }
+
+        lastY = y;
+      } finally {
+        // ✅ 어떤 경로로 끝나든 반드시 해제
+        ticking = false;
+      }
+    };
+
+    const handle = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(onScroll);
+      }
+    };
+
+    window.addEventListener("scroll", handle, { passive: true });
+
+    // 초기 상태 즉시 반영(중간 지점에서 시작해도 정상)
+    requestAnimationFrame(onScroll);
+    return true;
+  }
+
+  // DOM 준비 후 실행(못 잡히면 짧게 재시도)
+  const start = () => {
+    if (setup()) return;
+    let tries = 0;
+    const id = setInterval(() => {
+      tries += 1;
+      if (setup() || tries > 20) clearInterval(id);
+    }, 100);
   };
 
-  const handle = () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(onScroll);
-    }
-  };
-
-  window.addEventListener("scroll", handle, { passive: true });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start, { once: true });
+  } else {
+    start();
+  }
 })();
+
+
 
 
 
@@ -403,9 +427,6 @@ $(function () {
           trigger: wrap,
           start: "top top",
           end: "bottom bottom",
-          pin: true,
-          pinSpacing: true,        // 레이아웃 이격 유지
-          anticipatePin: 1,
           invalidateOnRefresh: true
         });
 
@@ -525,9 +546,6 @@ $(function () {
           trigger: wrap,
           start: "top top",
           end: "bottom bottom",
-          pin: true,
-          pinSpacing: true,        // 레이아웃 이격 유지
-          anticipatePin: 1,
           invalidateOnRefresh: true
         });
 
@@ -643,9 +661,6 @@ $(function () {
           trigger: wrap,
           start: "top top",
           end: "bottom bottom",
-          pin: true,
-          pinSpacing: true,        // 레이아웃 이격 유지
-          anticipatePin: 1,
           invalidateOnRefresh: true
         });
 
