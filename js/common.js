@@ -194,6 +194,56 @@
   closeBtn.addEventListener('click', closeMenu);
 
 
+// 모바일 메뉴 아코디언
+
+$(function () {
+  if (window.__mobileAccordionInit) return;
+  window.__mobileAccordionInit = true;
+
+  const $menu = $('#mobileMenu');
+
+  $menu.off('click.moAccordion');
+  $(document).off('click.moAccordion');
+
+  $menu.on('click.moAccordion', '.menu-depth1', function (e) {
+    e.preventDefault();
+    e.stopPropagation(); 
+
+    const $li  = $(this).closest('li');
+    const $sub = $li.children('.submenu');
+
+    if ($sub.is(':animated')) return;
+
+    const willOpen = !$li.hasClass('open');
+
+    $li.siblings('li')
+      .removeClass('open')
+      .children('.submenu')
+      .stop(true, true).slideUp(200)
+      .prev('.menu-depth1').attr('aria-expanded', false);
+
+    // 현재 항목 토글(열기/닫기)
+    if (willOpen) {
+      $li.addClass('open');
+      $sub.stop(true, true).slideDown(200);
+    } else {
+      $li.removeClass('open');
+      $sub.stop(true, true).slideUp(200);
+    }
+    $(this).attr('aria-expanded', willOpen);
+  });
+
+  // ✅ (선택) 메뉴 바깥 클릭 시 모두 닫기 — 내부 클릭은 무시
+  $(document).on('click.moAccordion', function (e) {
+    if ($(e.target).closest('.mo-menu-container').length) return; // 내부 클릭이면 패스
+    $menu.find('li.open')
+      .removeClass('open')
+      .children('.submenu')
+      .stop(true, true).slideUp(200)
+      .prev('.menu-depth1').attr('aria-expanded', false);
+  });
+});
+
 
 
 

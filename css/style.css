@@ -84,13 +84,13 @@ html { scroll-behavior: auto; }
   .mo-menu-wrapper .mo-menu-container {padding: 123px 30px 80px; position: fixed; top: 0; right: 0; width: 280px; height: 100vh; background-color: #fff; overflow: hidden; overflow-y: scroll; z-index: 9999; transform: translateX(280px); transition: all .3s ease-in; box-sizing: border-box;}
   .mo-menu-wrapper .mo-menu-container.active {transform: translateX(0);}
   .mo-menu-wrapper .mo-menu-container button {position: absolute; top: 33px; right: 24px;}
-  .mo-menu-wrapper .mo-menu {display: flex; flex-direction: column; gap: 24px;}
+  .mo-menu-wrapper .mo-menu {display: flex; flex-direction: column; gap: 40px;}
   .mo-menu-wrapper .menu-depth1 {display: flex; justify-content: space-between;}
-  .mo-menu-wrapper .menu-depth1 {font-size: 20px; font-weight: 600; line-height: 26px; letter-spacing: -0.03em; color: #323232;}
+  .mo-menu-wrapper .menu-depth1 {font-size: 20px; font-weight: 600; line-height: 26px; letter-spacing: -0.03em; color: #000;}
   .mo-menu-wrapper .submenu {display: none; margin-top: 24px; padding-left: 15px;}
   .mo-menu-wrapper .submenu li {margin-top: 10px;}
   .mo-menu-wrapper .submenu li:nth-child(1) {margin-top: 0;}
-  .mo-menu-wrapper .submenu li a {font-size: 15px; font-weight: 500; line-height: 32px; letter-spacing: -0.03em; color: #969696; -webkit-transition: all 0.25s ease;
+  .mo-menu-wrapper .submenu li a {font-size: 15px; font-weight: 400; line-height: 42px; letter-spacing: -0.03em; color: #000; -webkit-transition: all 0.25s ease;
       -o-transition: all 0.25s ease;
       transition: all 0.25s ease;}
   .mo-menu-wrapper .submenu li a.active {color: #323232;}
