@@ -315,7 +315,7 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
   .intro .main-text {width: 100%; padding-left: 8.2vw; padding-right: 8.2vw; box-sizing: border-box;}
   .intro h1 {font-size: 32px;}
   .intro .main-desc {margin-top: 20px; font-size: 13px; word-break: keep-all;}
-  .value .video-text {padding: 8.2vw; left: 0; bottom: 12vh;}
+  .value .video-text {padding: 0 8.2vw; left: 0; bottom: 25vh;}
   .value .video-title {text-align: left; font-size: 28px;}
   .value .video-desc {margin-top: 20px; text-align: left; font-size: 16px; font-weight: 300;}
   .value .video-desc > br {display: block;}
