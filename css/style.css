@@ -76,11 +76,49 @@ html { scroll-behavior: auto; }
   .mo-menu-wrapper .mobile-top {position: absolute; padding: 46px 8.33vw; width: 100%; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; z-index: 50;}
   .mo-menu-wrapper .mobile-top .logo {font-family: "Pretendard"; font-size: 22px; font-weight: 600; color: #fff;}
   
-  .mo-menu-wrapper .mobile-top.active {top: 0;}
+  /* .mo-menu-wrapper .mobile-top.active {top: 0;}
   .mo-menu-wrapper .mobile-top span {display: none;}
   .mo-menu-wrapper .mobile-top button {background: url(../images/btn_mo_menu_w.png) no-repeat center; width: 25px; height: 25px;}
   .mo-menu-wrapper .mobile-top button.active {background: url(../images/btn_mo_menu.png) no-repeat center; width: 25px; height: 25px;}
- 
+  */
+
+  .mo-menu-wrapper .mobile-top {
+  position: fixed;
+  top: 0; /* ✅ 기본 상태에서는 항상 보여야 하니까 0으로 시작 */
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.mo-menu-wrapper .mobile-top.hide {
+  top: -60px;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.mo-menu-wrapper .mobile-top.active {
+  top: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: top 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease;
+  z-index: 100;
+}
+
+.mo-menu-wrapper .mobile-top span { display: none; }
+
+.mo-menu-wrapper .mobile-top button {
+  background: url(../images/btn_mo_menu_w.png) no-repeat center;
+  width: 25px; height: 25px;
+  border: none;
+}
+
+.mo-menu-wrapper .mobile-top button.active {
+  background: url(../images/btn_mo_menu.png) no-repeat center;
+}
+
+
   .mo-menu-wrapper .mo-menu-container {padding: 123px 30px 80px; position: fixed; top: 0; right: 0; width: 280px; height: 100vh; background-color: #fff; overflow: hidden; overflow-y: scroll; z-index: 9999; transform: translateX(280px); transition: all .3s ease-in; box-sizing: border-box;}
   .mo-menu-wrapper .mo-menu-container.active {transform: translateX(0);}
   .mo-menu-wrapper .mo-menu-container button {position: absolute; top: 33px; right: 24px;}
@@ -285,6 +323,7 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
   .section-title {font-size: 24px; text-transform: uppercase;}
   .section-desc {margin-top: 12px; font-size: 16px; word-break: keep-all;}
   .product-slide__content {bottom: 36px;}
+  .product-slide__img {height: 326px;}  
   .product .title-wrap {margin-bottom: 69px;}
   .product-slide__overlay {display: none;}
   .product-slide__title {font-size: 24px;}
