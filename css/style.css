@@ -272,7 +272,7 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
   .mo-menu-wrapper .mobile-top {padding: 46px 8.2vw; justify-content: right;}
   .mo-menu-wrapper .mobile-top .logo {display: none;}
   .intro .mo_scroll {display: flex; flex-direction: column; align-items: center; gap: 11px;  position: absolute; bottom: 38px; left: 0; right: 0; margin: 0 auto;}
-  .intro .mo_scroll img {width: 26px;}
+  .intro .mo_scroll img {width: 26px; animation: scrollFloat 2s infinite;}
   .intro .mo_scroll p {font-family: "Pretendard"; font-size: 11px; font-weight: 700; color: #fff; text-transform: uppercase;}
   .intro .main-text {width: 100%; padding-left: 8.2vw; padding-right: 8.2vw; box-sizing: border-box;}
   .intro h1 {font-size: 32px;}
@@ -303,6 +303,34 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
   .client.main-inner {padding-bottom: 121px;}
   .client .logo-wrap {margin-top: 80px; display: grid; grid-template-columns: repeat(2, 1fr); /* 2열 */ align-items: center; column-gap: 30px; row-gap: 40px;}
   .client .logo-wrap .client-logo > img {height: 22px;}
+  @keyframes scrollFloat {
+    0% {
+      transform: translateY(0);
+      animation-timing-function: ease-in; 
+    }
+    30% {
+      transform: translateY(-8px);
+      animation-timing-function: ease-out; 
+    }
+    100% {
+      transform: translateY(0);
+      animation-timing-function: ease-out;
+    }
+  }
+
+/* 모바일 전용 기본 레이아웃 */
+
+/* 섹션/랩 기본 포지셔닝 */
+
+
+/* .value { position: relative !important; }
+.value .video-wrap01 {
+  position: absolute !important;
+top: 0 !important;
+transform: translate(0px, 0px) !important;
+} */
+
+
 }
 
 

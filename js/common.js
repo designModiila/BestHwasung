@@ -322,16 +322,57 @@ $(function () {
         };
       });
 
-      // 768px 이하일 때: 아무것도 실행 안 함
+      // 768px 이하일 때
+
       mm.add("(max-width: 767px)", () => {
-        // 모바일에선 애니메이션 미적용
+        const section = document.querySelector("#value01");
+        if (!section) return;
+
+        const wrap  = section.querySelector(".video-wrap01");
+        const title = wrap?.querySelector(".video-title");
+        const desc  = wrap?.querySelector(".video-desc");
+        if (!wrap || !title || !desc) return;
+
+        // 초기 상태 (모바일에서만)
+        gsap.killTweensOf([title, desc]);
+        gsap.set([title, desc], { y: 20, autoAlpha: 0 });
+
+        // 1) 핀 고정: top이 뷰포트 top에 닿는 순간부터,
+        //    요소의 bottom이 뷰포트 bottom에 닿을 때까지 고정
+        const pinST = ScrollTrigger.create({
+          trigger: wrap,
+          start: "top top",
+          end: "bottom bottom",
+          pin: true,
+          pinSpacing: true,        // 레이아웃 이격 유지
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        });
+
+        // 2) 하단(bottom)이 뷰포트 하단(bottom)에 닿으면 0.3s 후 재생
+        const tl = gsap.timeline({
+          paused: true,
+          defaults: { duration: 1.3, ease: "power2.out" }
+        });
+        tl.to(title, { y: 0, autoAlpha: 1 }, 0)
+          .to(desc,  { y: 0, autoAlpha: 1 }, 0.5);
+
+        const revealST = ScrollTrigger.create({
+          trigger: wrap,
+          start: "70% bottom",
+          once: true, // 한 번만 실행
+          onEnter: () => gsap.delayedCall(0.3, () => tl.play())
+        });
+
+        // 🔧 반응형 전환(cleanup)
         return () => {
-          // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
-          ScrollTrigger.getAll().forEach(st => st.kill());
-          gsap.globalTimeline.clear();
-          window.__value01Init = false;
+          pinST.kill();
+          revealST.kill();
+          tl.kill();
         };
       });
+
+
     })();
 
 
@@ -404,16 +445,55 @@ $(function () {
         };
       });
 
-      // 768px 이하일 때: 아무것도 실행 안 함
+      // 768px 이하일 때
+
       mm.add("(max-width: 767px)", () => {
-        // 모바일에선 애니메이션 미적용
+        const section = document.querySelector("#value02");
+        if (!section) return;
+
+        const wrap  = section.querySelector(".video-wrap02");
+        const title = wrap?.querySelector(".video-title");
+        const desc  = wrap?.querySelector(".video-desc");
+        if (!wrap || !title || !desc) return;
+
+        // 초기 상태 (모바일에서만)
+        gsap.killTweensOf([title, desc]);
+        gsap.set([title, desc], { y: 20, autoAlpha: 0 });
+
+        // 1) 핀 고정: top이 뷰포트 top에 닿는 순간부터,
+        const pinST = ScrollTrigger.create({
+          trigger: wrap,
+          start: "top top",
+          end: "bottom bottom",
+          pin: true,
+          pinSpacing: true,        // 레이아웃 이격 유지
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        });
+
+        // 2) 하단(bottom)이 뷰포트 하단(bottom)에 닿으면 0.3s 후 재생
+        const tl = gsap.timeline({
+          paused: true,
+          defaults: { duration: 1.3, ease: "power2.out" }
+        });
+        tl.to(title, { y: 0, autoAlpha: 1 }, 0)
+          .to(desc,  { y: 0, autoAlpha: 1 }, 0.5);
+
+        const revealST = ScrollTrigger.create({
+          trigger: wrap,
+          start: "70% bottom",
+          once: true, // 한 번만 실행
+          onEnter: () => gsap.delayedCall(0.3, () => tl.play())
+        });
+
+        // 🔧 반응형 전환(cleanup)
         return () => {
-          // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
-          ScrollTrigger.getAll().forEach(st => st.kill());
-          gsap.globalTimeline.clear();
-          window.__value02Init = false;
+          pinST.kill();
+          revealST.kill();
+          tl.kill();
         };
       });
+
     })();
 
     // ---------- value03 ----------
@@ -483,14 +563,52 @@ $(function () {
         };
       });
 
-      // 768px 이하일 때: 아무것도 실행 안 함
+      // 768px 이하일 때
+
       mm.add("(max-width: 767px)", () => {
-        // 모바일에선 애니메이션 미적용
+        const section = document.querySelector("#value03");
+        if (!section) return;
+
+        const wrap  = section.querySelector(".video-wrap03");
+        const title = wrap?.querySelector(".video-title");
+        const desc  = wrap?.querySelector(".video-desc");
+        if (!wrap || !title || !desc) return;
+
+        // 초기 상태 (모바일에서만)
+        gsap.killTweensOf([title, desc]);
+        gsap.set([title, desc], { y: 20, autoAlpha: 0 });
+
+        // 1) 핀 고정: top이 뷰포트 top에 닿는 순간부터,
+        const pinST = ScrollTrigger.create({
+          trigger: wrap,
+          start: "top top",
+          end: "bottom bottom",
+          pin: true,
+          pinSpacing: true,        // 레이아웃 이격 유지
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        });
+
+        // 2) 하단(bottom)이 뷰포트 하단(bottom)에 닿으면 0.3s 후 재생
+        const tl = gsap.timeline({
+          paused: true,
+          defaults: { duration: 1.3, ease: "power2.out" }
+        });
+        tl.to(title, { y: 0, autoAlpha: 1 }, 0)
+          .to(desc,  { y: 0, autoAlpha: 1 }, 0.5);
+
+        const revealST = ScrollTrigger.create({
+          trigger: wrap,
+          start: "70% bottom",
+          once: true, // 한 번만 실행
+          onEnter: () => gsap.delayedCall(0.3, () => tl.play())
+        });
+
+        // 🔧 반응형 전환(cleanup)
         return () => {
-          // 데스크톱에서 모바일로 바뀔 때 타임라인, 트리거 모두 정리
-          ScrollTrigger.getAll().forEach(st => st.kill());
-          gsap.globalTimeline.clear();
-          window.__value03Init = false;
+          pinST.kill();
+          revealST.kill();
+          tl.kill();
         };
       });
     })();
