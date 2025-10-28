@@ -181,13 +181,13 @@
   const openMenu = () => {
     menu.classList.add('active');
     backgroundBlack.classList.add('active');
-    document.body.classList.add('no-scroll'); // ✅ 스크롤 막기
+    document.body.classList.add('no-scroll'); 
   };
 
   const closeMenu = () => {
     menu.classList.remove('active');
     backgroundBlack.classList.remove('active');
-    document.body.classList.remove('no-scroll'); // ✅ 스크롤 해제
+    document.body.classList.remove('no-scroll');
   };
 
   openBtn.addEventListener('click', openMenu);
@@ -341,7 +341,7 @@ $(function () {
 
     // ---------- value01 ----------
     (function(){
-      gsap.registerPlugin(ScrollTrigger);
+      // gsap.registerPlugin(ScrollTrigger);
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
@@ -461,7 +461,7 @@ $(function () {
     
     // ---------- value02 ----------
     (function(){
-      gsap.registerPlugin(ScrollTrigger);
+      // gsap.registerPlugin(ScrollTrigger);
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
@@ -576,7 +576,7 @@ $(function () {
 
     // ---------- value03 ----------
     (function(){
-      gsap.registerPlugin(ScrollTrigger);
+      // gsap.registerPlugin(ScrollTrigger);
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
@@ -907,7 +907,7 @@ $(function () {
     });
 
     
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 
 document.querySelectorAll('.fade-scope').forEach(scope => {
   const items = Array.from(scope.querySelectorAll('*')).filter(el => {
