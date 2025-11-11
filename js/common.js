@@ -2,6 +2,7 @@
   'use strict';
 
   document.documentElement.classList.add('js');
+  gsap.config({ nullTargetWarn: false });
 
   document.addEventListener('DOMContentLoaded', function () {
 
@@ -122,7 +123,8 @@
       function gnbshow(){
         $("#header").addClass("on");
         $(".gnb_bg").stop().animate({height:"313px"},300);
-        $(".gnb_bg").addClass("on");
+        setTimeout(function(){$(".gnb_bg").addClass("on");}, 200);
+        $(".gnb_bg .dividing-line").addClass("on");
         $(".depth2").stop().animate({height:"213px"},300);
         safeRefresh();
       }
@@ -133,6 +135,7 @@
           $("#header").removeClass("on");
         }, 300);
         $(".gnb_bg").removeClass("on");
+        $(".gnb_bg .dividing-line").removeClass("on");
         safeRefresh();
       }
 
@@ -165,7 +168,74 @@
     })();
 
 
+///////////////////////    
+window.addEventListener('DOMContentLoaded', () => {
+  const header = document.getElementById('header');
+  if (header && header.parentElement !== document.body) {
+    document.body.prepend(header); // DOM 상단으로 이동
+  }
+});
 
+(function(){
+  const header = document.getElementById('header');
+  if (!header) return;
+
+  const isMain = document.body.classList.contains('page-main');
+  const ENABLE_AFTER = isMain ? 5 : 2500;
+  const UP_DELTA = 5;       // 위로 이만큼만 올려도 등장
+  const DOWN_DELTA = 8;     // 아래로 이만큼 내리면 숨김
+  const TOP_RESET = 10;     // 최상단 근처면 active 해제
+
+  let lastY = window.pageYOffset || 0;
+  let ticking = false;
+
+  function showActive() {
+    header.classList.remove('is-hide'); // 반대 클래스 제거
+    header.classList.add('is-active');
+  }
+  function hideHeader() {
+    header.classList.remove('is-active'); // 반대 클래스 제거
+    header.classList.add('is-hide');
+  }
+  function resetTop() {
+    header.classList.remove('is-hide', 'is-active');
+  }
+
+  function onScrollTick() {
+    const y = window.pageYOffset || 0;
+    const delta = y - lastY;
+
+    // 최상단/탐색 구간: 항상 보이되 active 해제(투명)
+    if (y <= TOP_RESET || y < ENABLE_AFTER) {
+      resetTop();
+      lastY = y; ticking = false; return;
+    }
+
+    // 100px 이상에서 방향 기반 토글
+    if (delta > DOWN_DELTA) {        // 아래로
+      hideHeader();
+    } else if (delta < -UP_DELTA) {  // 위로
+      showActive();
+    }
+
+    // 🚨 안전 가드: 둘 다 붙었으면 active가 이기도록 정리
+    if (header.classList.contains('is-active') && header.classList.contains('is-hide')) {
+      header.classList.remove('is-hide');
+    }
+
+    lastY = y;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(onScrollTick);
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+
+//////////////////////////
     
     // 모바일 메뉴
 
@@ -833,7 +903,7 @@ $(function () {
   * 헤더 깜빡임 없앰
   * ========================= */
 
-    const SELECTOR = "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p, .visual .breadcrumb-list a";
+    const SELECTOR = "header.sub-header .logo > a, .sub-header .depth1 > li > a, .sub-header .menu-mall > p";
 
     function startForceBlack() {
       document.body.classList.add("gnb-no-transition");
@@ -907,7 +977,7 @@ $(function () {
     });
 
     
-// gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
 
 document.querySelectorAll('.fade-scope').forEach(scope => {
   const items = Array.from(scope.querySelectorAll('*')).filter(el => {
