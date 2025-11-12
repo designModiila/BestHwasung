@@ -120,55 +120,60 @@
      *    지금 구조 유지하되 refresh 제거/안전화
      * ========================= */
     (function gnb() {
-      function gnbshow(){
-        $("#header").addClass("on");
-        $(".gnb_bg").stop().animate({height:"313px"},300);
-        setTimeout(function(){$(".gnb_bg").addClass("on");}, 200);
-        $(".gnb_bg .dividing-line").addClass("on");
-        $(".depth2").stop().animate({height:"213px"},300);
-        safeRefresh();
-      }
-      function gnbhide(){
-        $(".gnb_bg").stop().animate({height:"0px"},300);
-        $(".depth2").stop().animate({height:"0px"},300) 
-        setTimeout(function(){
-          $("#header").removeClass("on");
-        }, 300);
-        $(".gnb_bg").removeClass("on");
-        $(".gnb_bg .dividing-line").removeClass("on");
-        safeRefresh();
-      }
+  function gnbshow(){
+    $("#header").addClass("on");
+    $(".gnb_bg").stop().animate({height:"313px"},300);
+    setTimeout(function(){$(".gnb_bg").addClass("on");}, 200);
+    $(".gnb_bg .dividing-line").addClass("on");
+    $(".depth2").stop().animate({height:"213px"},300);
+  }
 
-      $("#gnb").on("mouseenter", gnbshow);   
-      $("#header").on("mouseleave", gnbhide);      
+  function gnbhide(){
+    $(".gnb_bg").stop().animate({height:"0px"},300);
+    $(".depth2").stop().animate({height:"0px"},300);
+    setTimeout(function(){
+      $("#header").removeClass("on");
+    }, 300);
+    $(".gnb_bg").removeClass("on");
+    $(".gnb_bg .dividing-line").removeClass("on");
+  }
 
-      $("#gnb .depth1>li")
-        .on("mouseenter", function(){
-          $("#gnb .depth1>li").removeClass("on");
-          $(this).addClass("on");
-        })
-        .on("mouseleave", function(){
-          $("#gnb .depth1>li").removeClass("on");
-        });
+  $("#gnb").on("mouseenter", gnbshow);
+  $("#header").on("mouseleave", gnbhide);
 
-      $(".btn_gnb").on("click", function(e){
-        e.preventDefault();
-        if($(this).hasClass("on")){
-          $(this).removeClass("on");
-          gnbhide();
-          $("#gnb, .logo").off("mouseenter").on("mouseenter", gnbshow);
-          $("#header").off("mouseleave").on("mouseleave", gnbhide);
-        } else {
-          $(this).addClass("on");
-          gnbshow();
-          $("#gnb").off(); // 열린 동안 hover 최소화
-        }
-        safeRefresh();
-      });
-    })();
+  $("#gnb .depth1>li")
+    .on("mouseenter", function(){
+      $("#gnb .depth1>li").removeClass("on");
+      $(this).addClass("on");
+    })
+    .on("mouseleave", function(){
+      $("#gnb .depth1>li").removeClass("on");
+    });
+
+  $(".btn_gnb").on("click", function(e){
+    e.preventDefault();
+    if($(this).hasClass("on")){
+      $(this).removeClass("on");
+      gnbhide();
+      $("#gnb, .logo").off("mouseenter").on("mouseenter", gnbshow);
+      $("#header").off("mouseleave").on("mouseleave", gnbhide);
+    } else {
+      $(this).addClass("on");
+      gnbshow();
+      $("#gnb").off(); // 열린 동안 hover 최소화
+    }
+  });
+
+  // ✅ 모든 이벤트가 등록된 후, 초기 1회만 실행
+  safeRefresh();
+})();
 
 
-///////////////////////    
+
+/* =========================
+* 스크롤에 따른 헤더 숨김/보임
+* ========================= */
+
 window.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('header');
   if (header && header.parentElement !== document.body) {
@@ -181,7 +186,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!header) return;
 
   const isMain = document.body.classList.contains('page-main');
-  const ENABLE_AFTER = isMain ? 5 : 2500;
+  const ENABLE_AFTER = isMain ? 5 : 2300;
   const UP_DELTA = 5;       // 위로 이만큼만 올려도 등장
   const DOWN_DELTA = 8;     // 아래로 이만큼 내리면 숨김
   const TOP_RESET = 10;     // 최상단 근처면 active 해제
@@ -235,11 +240,67 @@ window.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 })();
 
-//////////////////////////
-    
-    // 모바일 메뉴
 
- 
+/* =========================
+* 서브페이지 최상단영역 헤더 설정
+* ========================= */
+
+// .page-sub 상단 430px 구간에서 헤더 텍스트를 항상 #000로 강제
+(() => {
+  const body = document.body;
+  const header = document.getElementById('header');
+  if (!body || !header) return;
+  if (!body.classList.contains('page-sub')) return;
+
+  const THRESH = 430;
+  const STYLE_ID = 'subTopColorGuardStyle';
+  const CLASS_GUARD = 'sub-top-guard';
+
+  // 한 번만 주입되는 스타일(우선순위 보장 위해 !important 사용)
+  function ensureStyle() {
+    if (document.getElementById(STYLE_ID)) return;
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.textContent = `
+      .page-sub.${CLASS_GUARD} #header a p,
+      .page-sub.${CLASS_GUARD} #header a,
+      .page-sub.${CLASS_GUARD} #header .menu-mall p,
+      .page-sub.${CLASS_GUARD} #header #gnb .depth1>li>a {
+        color: #000 !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  let ticking = false;
+  function onTick() {
+    const y = window.pageYOffset || 0;
+    if (y <= THRESH) {
+      body.classList.add(CLASS_GUARD);
+    } else {
+      body.classList.remove(CLASS_GUARD);
+    }
+    ticking = false;
+  }
+
+  ensureStyle();
+  // 초기 상태 적용
+  onTick();
+
+  // 스크롤 이벤트 성능 보호(requestAnimationFrame)
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(onTick);
+    }
+  }, { passive: true });
+})();
+
+
+    
+/* =========================
+*   모바일 메뉴
+* ========================= */
 
   const menu = document.querySelector('.mo-menu-container');
   const openBtn = document.querySelector('.mobile-top .mo-nav');
@@ -434,7 +495,7 @@ $(function () {
             end: () => "+=" + window.innerHeight * 2,
             scrub: 1,
             pin: true,
-            pinReparent: true,
+            // pinReparent: true,
             pinSpacing: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
@@ -590,7 +651,7 @@ $(function () {
 
         // matchMedia 해제 시 정리
         return () => {
-          window.__value01Init = false;
+          window.__value02Init = false;
           ScrollTrigger.getAll().forEach(st => st.kill());
           gsap.globalTimeline.clear();
         };
@@ -705,7 +766,7 @@ $(function () {
 
         // matchMedia 해제 시 정리
         return () => {
-          window.__value01Init = false;
+          window.__value03Init = false;
           ScrollTrigger.getAll().forEach(st => st.kill());
           gsap.globalTimeline.clear();
         };
