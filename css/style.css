@@ -140,21 +140,25 @@ html { scroll-behavior: auto; }
   background: url(../images/btn_mo_menu_w.png) no-repeat center;
   width: 25px; height: 25px;
   border: none;
+  opacity: 1;
 }
+
+.mo-menu-wrapper .mobile-top.hide button {opacity: 0; transition: 0.2s;}
 
 .mo-menu-wrapper .mobile-top button.active {
   background: url(../images/btn_mo_menu.png) no-repeat center;
 }
 
 
-  .mo-menu-wrapper .mo-menu-container {padding: 123px 30px 80px; position: fixed; top: 0; right: 0; bottom: 0; width: 280px; height: 100vh; background-color: #fff; overflow: hidden; overflow-y: scroll; z-index: 9999; transform: translateX(280px); transition: all .3s ease-in; box-sizing: border-box;}
+  .mo-menu-wrapper .mo-menu-container {padding: 123px 30px 36px; display: flex; flex-direction: column; justify-content: space-between; position: fixed; top: 0; right: 0; bottom: 0; width: 280px; height: 100vh; background-color: #fff; overflow: hidden; overflow-y: scroll; z-index: 9999; transform: translateX(280px); transition: all .3s ease-in; box-sizing: border-box;}
   .mo-menu-wrapper .mo-menu-container.active {transform: translateX(0);}
-  .mo-menu-wrapper .mo-menu-container button {position: absolute; top: 33px; right: 24px;}
+  .mo-menu-wrapper .mo-menu-container button.mo-close {position: absolute; top: 33px; right: 24px;}
   .mo-menu-wrapper .mo-menu {display: flex; flex-direction: column; gap: 40px;}
-  .mo-menu-wrapper .menu-depth1 {display: flex; justify-content: space-between;}
+  .mo-menu-wrapper .menu-depth1 {display: flex; justify-content: space-between; cursor: pointer;}
   .mo-menu-wrapper .menu-depth1 {font-size: 20px; font-weight: 600; line-height: 26px; letter-spacing: -0.03em; color: #000;}
-  .mo-menu-wrapper .submenu {display: none; margin-top: 24px; padding-left: 15px;}
-  .mo-menu-wrapper .submenu li {margin-top: 10px;}
+  .mo-menu-wrapper .submenu {display: none; margin-top: 24px;}
+  .mo-menu-wrapper .submenu li {margin-top: 10px; padding-left: 15px;}
+  .mo-menu-wrapper .submenu li:hover {border-radius: 12px; background-color: #EFEFEF;}
   .mo-menu-wrapper .submenu li:nth-child(1) {margin-top: 0;}
   .mo-menu-wrapper .submenu li a {font-size: 15px; font-weight: 400; line-height: 42px; letter-spacing: -0.03em; color: #000; -webkit-transition: all 0.25s ease;
       -o-transition: all 0.25s ease;
@@ -166,6 +170,8 @@ html { scroll-behavior: auto; }
       -o-transform: rotate(180deg);
       transform: rotate(180deg);
     }
+  .mo-menu-container .mo-btn-mall {display: block; padding: 12px; width: 111px; border-radius: 12px; background-color: #3C87FF;}  
+  .mo-menu-container .mo-btn-mall a {display: block; font-family: "Pretendard"; font-size: 20px; font-weight: 700; color: #fff;}  
   
   
   .background-b {position: fixed; width: 100%; height: 100vh; background-color:rgba(0,0,0,0.5); top:0; left: 0; z-index: 100; display : none; pointer-events: auto; transition: all 0.3s;}
@@ -182,6 +188,13 @@ html.no-scroll {
   touch-action: none;   
   overscroll-behavior: none;
 }
+
+ #value01, #value02, #value03,
+  .value, .product, footer,
+  .value + section {
+    isolation: auto !important;
+    z-index: auto !important;   /* z-index:0 도 스태킹 컨텍스트가 됩니다 */
+  }
 }
 
 
@@ -349,6 +362,9 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
   .intro .main-text {width: 100%; padding-left: 8.2vw; padding-right: 8.2vw; box-sizing: border-box;}
   .intro h1 {font-size: 32px;}
   .intro .main-desc {margin-top: 20px; font-size: 13px; word-break: keep-all;}
+  #value01 .video-wrap01,
+  #value02 .video-wrap02,
+  #value03 .video-wrap03 {top: 0;}
   .value .video-text {padding: 0 8.2vw; left: 0; bottom: 25vh;}
   .value .video-title {text-align: left; font-size: 28px;}
   .value .video-desc {margin-top: 20px; text-align: left; font-size: 16px; font-weight: 300;}

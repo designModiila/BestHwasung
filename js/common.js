@@ -302,27 +302,167 @@ window.addEventListener('DOMContentLoaded', () => {
 *   모바일 메뉴
 * ========================= */
 
-  const menu = document.querySelector('.mo-menu-container');
-  const openBtn = document.querySelector('.mobile-top .mo-nav');
-  const closeBtn = document.querySelector('.mo-menu-container .mo-close');
-  const backgroundBlack = document.querySelector('.background-b');
+(function () {
+  const openBtn  = document.querySelector('.mobile-top .mo-nav');
+  const wrapper  = document.querySelector('.only-mo.mo-menu-wrapper'); // 부모 래퍼
+  const menu     = document.querySelector('.mo-menu-wrapper .mo-menu-container'); // 네 CSS가 걸리는 대상
+  const closeBtn = document.querySelector('.mo-menu-wrapper .mo-menu-container .mo-close');
+  const overlay  = document.querySelector('.background-b');
+  if (!openBtn || !menu || !closeBtn || !overlay || !wrapper) return;
 
-  if (!menu || !openBtn || !closeBtn) return;
+  // ⬇️ 추가: 상단 바
+  const topBar = wrapper.querySelector('.mobile-top');
 
-  const openMenu = () => {
+  // Lenis 인스턴스(프로젝트에 맞게 필요시 수정)
+  const lenis =
+    window.lenis ||
+    window.__lenis ||
+    (window.Lenis && window.Lenis.instance) ||
+    null;
+
+  const getY = () => {
+    if (lenis && typeof lenis.scroll === 'number') return lenis.scroll;
+    return window.scrollY || document.documentElement.scrollTop || 0;
+  };
+
+  let locked = false;
+  let savedY = 0;
+  let rafId = 0;
+
+  // 배경 입력 차단(메뉴 내부는 허용)
+  function hardBlock(e) {
+    if (e.target.closest('.mo-menu-container')) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+  }
+
+  function forceSnapBack() {
+    const y = (lenis && typeof lenis.scroll === 'number')
+      ? lenis.scroll
+      : window.scrollY || document.documentElement.scrollTop || 0;
+
+    if (lenis && typeof lenis.scrollTo === 'function') {
+      lenis.scrollTo(savedY, { immediate: true, lock: true });
+    } else if (y !== savedY) {
+      window.scrollTo(0, savedY);
+    }
+  }
+
+  function snapLoop() {
+    if (!locked) return;
+    forceSnapBack();
+    rafId = requestAnimationFrame(snapLoop);
+  }
+
+  function lockScroll() {
+    if (locked) return;
+    locked = true;
+
+    // 현재 스크롤 기억 + Lenis 정지
+    savedY = (lenis && typeof lenis.scroll === 'number')
+      ? lenis.scroll
+      : window.scrollY || document.documentElement.scrollTop || 0;
+    if (lenis && typeof lenis.stop === 'function') lenis.stop();
+
+    // 오버레이는 네 CSS 그대로 active만
+    overlay.classList.add('active');
+
+    // 메뉴 활성화 (.active → translateX(0))
     menu.classList.add('active');
-    backgroundBlack.classList.add('active');
-    document.body.classList.add('no-scroll'); 
-  };
 
-  const closeMenu = () => {
+    // 래퍼만 잠깐 최상단으로 올려 오버레이보다 위에 보이게
+    wrapper.style.position = wrapper.style.position || 'relative';
+    wrapper.style.zIndex = '2147483647';
+
+    // 배경 입력 하드 차단 (캡처 단계)
+    document.addEventListener('wheel',        hardBlock, { passive: false, capture: true });
+    document.addEventListener('touchmove',    hardBlock, { passive: false, capture: true });
+    document.addEventListener('pointermove',  hardBlock, { passive: false, capture: true });
+    document.addEventListener('pointerdown',  hardBlock, { passive: false, capture: true });
+
+    // 키보드 스크롤 차단
+    function keyBlock(e) {
+      const tag = (e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+      const keys = [' ', 'Spacebar', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'];
+      if (!e.target.closest('.mo-menu-container') && keys.includes(e.key)) {
+        e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
+      }
+    }
+    document.addEventListener('keydown', keyBlock, { capture: true });
+    menu._keyBlock = keyBlock;
+
+    // 혹시라도 움직이면 즉시 원위치
+    window.addEventListener('scroll', forceSnapBack, { capture: true });
+    rafId = requestAnimationFrame(snapLoop);
+
+    // 오버레이 위 스와이프 체인 방지
+    overlay.addEventListener('touchmove', hardBlock, { passive: false });
+  }
+
+  function unlockScroll() {
+    if (!locked) return;
+    locked = false;
+
+    cancelAnimationFrame(rafId);
+
+    document.removeEventListener('wheel',       hardBlock, { capture: true });
+    document.removeEventListener('touchmove',   hardBlock, { capture: true });
+    document.removeEventListener('pointermove', hardBlock, { capture: true });
+    document.removeEventListener('pointerdown', hardBlock, { capture: true });
+    window.removeEventListener('scroll', forceSnapBack, { capture: true });
+
+    if (menu._keyBlock) {
+      document.removeEventListener('keydown', menu._keyBlock, { capture: true });
+      menu._keyBlock = null;
+    }
+    overlay.removeEventListener('touchmove', hardBlock, { capture: true });
+
+    if (lenis && typeof lenis.start === 'function') lenis.start();
+
+    overlay.classList.remove('active');
     menu.classList.remove('active');
-    backgroundBlack.classList.remove('active');
-    document.body.classList.remove('no-scroll');
-  };
 
+    // 래퍼 인라인만 원복 (네 CSS 다시 100% 적용)
+    wrapper.style.zIndex = '';
+    if (wrapper.getAttribute('style') && wrapper.style.position === 'relative') {
+      wrapper.style.position = '';
+    }
+
+    // 상단 바 항상 복원
+    if (topBar) topBar.classList.remove('hide');
+  }
+
+  // ★ 클릭 직전에 스크롤 위치로 헤더 숨김 여부 결정 (캡처 단계)
+  function onOpenCapture(e) {
+    if (!topBar) return;
+    const y = getY();
+    if (y > 1) {
+      topBar.classList.add('hide');   // 위로 사라짐 (네 CSS 그대로)
+    } else {
+      topBar.classList.remove('hide'); // 최상단이면 그대로
+    }
+  }
+
+  function openMenu(e) { e?.preventDefault?.(); lockScroll(); }
+  function closeMenu(e) { e?.preventDefault?.(); unlockScroll(); }
+
+  // 순서: 캡처 단계에서 헤더 상태 결정 → 기본 open 핸들러로 메뉴 오픈
+  openBtn.addEventListener('click', onOpenCapture, { capture: true });
   openBtn.addEventListener('click', openMenu);
   closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  if (openBtn.tagName === 'A') openBtn.setAttribute('href', 'javascript:void(0)');
+  if (openBtn.tagName === 'BUTTON' && !openBtn.getAttribute('type')) openBtn.setAttribute('type', 'button');
+})();
+
+
+
+
+
+
 
 
 // 모바일 메뉴 아코디언
