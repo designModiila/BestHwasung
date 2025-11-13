@@ -482,35 +482,35 @@ $(function () {
         gsap.set("#value01 .keyword01 .keyword-text", { autoAlpha: 0 });
         gsap.set("#value01 .keyword01", { columnGap: 0 });
         gsap.set("#value01 .section-title", { y: 50, autoAlpha: 0 });
-        gsap.set("#value01 .keyword01 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
-        gsap.set("#value01 .video-wrap01", { y: "0vh" });
+        gsap.set("#value01 .keyword01 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: "center center" });
+
+        // y 대신 top 기반(아래 CSS: top:100svh에서 시작)
+        gsap.set("#value01 .video-wrap01", { clearProps: "y" });
         gsap.set("#value01 .video-wrap01 .video-title", { y: 50, autoAlpha: 0 });
         gsap.set("#value01 .video-wrap01 .video-desc",  { y: 50, autoAlpha: 0 });
 
-        /* 1) 핀 + 스크럽 타임라인 */
         const tl1 = gsap.timeline({
           scrollTrigger: {
             trigger: "#value01",
             start: "top top",
-            end: () => "+=" + window.innerHeight * 2,
+            end: () => "+=" + window.innerHeight * 2.2, // 연출 길이에 맞게 조절
             scrub: 1,
-            pin: true,
-            // pinReparent: true,
-            pinSpacing: true,
+            pin: true,           // 유지
+            pinSpacing: true,    // 유지 (다음 섹션 조기 진입 방지)
             anticipatePin: 1,
-            invalidateOnRefresh: true,
+            invalidateOnRefresh: true
           }
         });
 
         tl1
-          .to("#value01 .video-wrap01", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
-          .to("#value01 .keyword01", { color:"#fff", duration: 2 }, "<+1")
-          .to("#value01 .keyword01 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+          // y:"-100vh" 대신 top:0으로 이동
+          .to("#value01 .video-wrap01", { top: 0, ease: "none", delay: 1, duration: 2 })
+          .to("#value01 .keyword01", { color: "#fff", duration: 2 }, "<+1")
+          .to("#value01 .keyword01 .line", { backgroundColor: "#fff", duration: 2 }, "<")
           .to("#value01 .keyword01", { opacity: 0, delay: 1 }, "<+1")
           .to("#value01 .video-wrap01 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
           .to("#value01 .video-wrap01 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
 
-        /* 2) 자동재생 타임라인 */
         const autoTl = gsap.timeline({ paused: true })
           .to("#value01 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
           .to("#value01 .keyword01 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
@@ -518,22 +518,25 @@ $(function () {
           .to("#value01 .keyword01 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
           .to("#value01 .keyword01", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
 
-        /* 3) 자동재생/역재생 트리거 */
         ScrollTrigger.create({
           trigger: "#value01",
           start: "top top",
-          end: () => "+=" + window.innerHeight * 2,
-          onEnter:      () => autoTl.play(0),
-          onEnterBack:  () => autoTl.play(0),
-          onLeaveBack:  () => autoTl.reverse(),
+          end: () => "+=" + window.innerHeight * 2.2,
+          onEnter:     () => autoTl.play(0),
+          onEnterBack: () => autoTl.play(0),
+          onLeaveBack: () => autoTl.reverse(),
           invalidateOnRefresh: true
         });
 
-        // matchMedia 해제 시 정리
         return () => {
           window.__value01Init = false;
-          ScrollTrigger.getAll().forEach(st => st.kill());
-          gsap.globalTimeline.clear();
+          tl1?.kill();
+          autoTl?.kill();
+          // 전역 타임라인 clear()는 금지(다른 섹션까지 영향)
+          ScrollTrigger.getAll().forEach(st => {
+            const el = st.trigger;
+            if (el && (el.id === "value01" || el.matches?.("#value01, #value01 *"))) st.kill();
+          });
         };
       });
 
@@ -602,35 +605,35 @@ $(function () {
         gsap.set("#value02 .keyword02 .keyword-text", { autoAlpha: 0 });
         gsap.set("#value02 .keyword02", { columnGap: 0 });
         gsap.set("#value02 .section-title", { y: 50, autoAlpha: 0 });
-        gsap.set("#value02 .keyword02 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
-        gsap.set("#value02 .video-wrap02", { y: "0vh" });
+        gsap.set("#value02 .keyword02 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: "center center" });
+
+        // y 대신 top 기반(아래 CSS: top:100svh에서 시작)
+        gsap.set("#value02 .video-wrap02", { clearProps: "y" });
         gsap.set("#value02 .video-wrap02 .video-title", { y: 50, autoAlpha: 0 });
         gsap.set("#value02 .video-wrap02 .video-desc",  { y: 50, autoAlpha: 0 });
 
-        /* 1) 핀 + 스크럽 타임라인 */
         const tl1 = gsap.timeline({
           scrollTrigger: {
             trigger: "#value02",
             start: "top top",
-            end: () => "+=" + window.innerHeight * 2,
+            end: () => "+=" + window.innerHeight * 2.2, // 연출 길이에 맞게 조절
             scrub: 1,
-            pin: true,
-            pinReparent: true,
-            pinSpacing: true,
+            pin: true,           // 유지
+            pinSpacing: true,    // 유지 (다음 섹션 조기 진입 방지)
             anticipatePin: 1,
-            invalidateOnRefresh: true,
+            invalidateOnRefresh: true
           }
         });
 
         tl1
-          .to("#value02 .video-wrap02", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
-          .to("#value02 .keyword02", { color:"#fff", duration: 2 }, "<+1")
-          .to("#value02 .keyword02 .line", { backgroundColor:"#fff", duration: 2 }, "<")
+          // y:"-100vh" 대신 top:0으로 이동
+          .to("#value02 .video-wrap02", { top: 0, ease: "none", delay: 1, duration: 2 })
+          .to("#value02 .keyword02", { color: "#fff", duration: 2 }, "<+1")
+          .to("#value02 .keyword02 .line", { backgroundColor: "#fff", duration: 2 }, "<")
           .to("#value02 .keyword02", { opacity: 0, delay: 1 }, "<+1")
           .to("#value02 .video-wrap02 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
           .to("#value02 .video-wrap02 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
 
-        /* 2) 자동재생 타임라인 */
         const autoTl = gsap.timeline({ paused: true })
           .to("#value02 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
           .to("#value02 .keyword02 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
@@ -638,22 +641,25 @@ $(function () {
           .to("#value02 .keyword02 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
           .to("#value02 .keyword02", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
 
-        /* 3) 자동재생/역재생 트리거 */
         ScrollTrigger.create({
           trigger: "#value02",
           start: "top top",
-          end: () => "+=" + window.innerHeight * 2,
-          onEnter:      () => autoTl.play(0),
-          onEnterBack:  () => autoTl.play(0),
-          onLeaveBack:  () => autoTl.reverse(),
+          end: () => "+=" + window.innerHeight * 2.2,
+          onEnter:     () => autoTl.play(0),
+          onEnterBack: () => autoTl.play(0),
+          onLeaveBack: () => autoTl.reverse(),
           invalidateOnRefresh: true
         });
 
-        // matchMedia 해제 시 정리
         return () => {
           window.__value02Init = false;
-          ScrollTrigger.getAll().forEach(st => st.kill());
-          gsap.globalTimeline.clear();
+          tl1?.kill();
+          autoTl?.kill();
+          // 전역 타임라인 clear()는 금지(다른 섹션까지 영향)
+          ScrollTrigger.getAll().forEach(st => {
+            const el = st.trigger;
+            if (el && (el.id === "value02" || el.matches?.("#value02, #value02 *"))) st.kill();
+          });
         };
       });
 
@@ -717,35 +723,35 @@ $(function () {
         gsap.set("#value03 .keyword03 .keyword-text", { autoAlpha: 0 });
         gsap.set("#value03 .keyword03", { columnGap: 0 });
         gsap.set("#value03 .section-title", { y: 50, autoAlpha: 0 });
-        gsap.set("#value03 .keyword03 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: 'center center' });
-        gsap.set("#value03 .video-wrap03", { y: "0vh" });
+        gsap.set("#value03 .keyword03 .line", { y: 100, autoAlpha: 0, scaleX: 0.1, transformOrigin: "center center" });
+
+        // y 대신 top 기반(아래 CSS: top:100svh에서 시작)
+        gsap.set("#value03 .video-wrap03", { clearProps: "y" });
         gsap.set("#value03 .video-wrap03 .video-title", { y: 50, autoAlpha: 0 });
         gsap.set("#value03 .video-wrap03 .video-desc",  { y: 50, autoAlpha: 0 });
 
-        /* 1) 핀 + 스크럽 타임라인 */
         const tl1 = gsap.timeline({
           scrollTrigger: {
             trigger: "#value03",
             start: "top top",
-            end: () => "+=" + window.innerHeight * 2,
+            end: () => "+=" + window.innerHeight * 2.2, // 연출 길이에 맞게 조절
             scrub: 1,
-            pin: true,
-            pinReparent: true,
-            pinSpacing: true,
+            pin: true,           // 유지
+            pinSpacing: true,    // 유지 (다음 섹션 조기 진입 방지)
             anticipatePin: 1,
-            invalidateOnRefresh: true,
+            invalidateOnRefresh: true
           }
         });
 
         tl1
-          .to("#value03 .video-wrap03", { y: "-100vh", ease: "none", delay: 1, duration: 2 })
-          .to("#value03 .keyword03", { color:"#fff", duration: 2 }, "<+1")
-          .to("#value03 .keyword03 .line", { backgroundColor:"#fff", duration: 2 }, "<")
-          .to("#value03 .keyword03", { opacity: 0 , delay: 1}, "<+1")
+          // y:"-100vh" 대신 top:0으로 이동
+          .to("#value03 .video-wrap03", { top: 0, ease: "none", delay: 1, duration: 2 })
+          .to("#value03 .keyword03", { color: "#fff", duration: 2 }, "<+1")
+          .to("#value03 .keyword03 .line", { backgroundColor: "#fff", duration: 2 }, "<")
+          .to("#value03 .keyword03", { opacity: 0, delay: 1 }, "<+1")
           .to("#value03 .video-wrap03 .video-title", { y: 0, autoAlpha: 1, ease: "sine.inOut" })
           .to("#value03 .video-wrap03 .video-desc",  { y: 0, autoAlpha: 1, ease: "sine.inOut" });
 
-        /* 2) 자동재생 타임라인 */
         const autoTl = gsap.timeline({ paused: true })
           .to("#value03 .section-title", { y: 0, autoAlpha: 1, ease: "power2.out", duration: 0.8, immediateRender: false })
           .to("#value03 .keyword03 .line", { y: 0, autoAlpha: 1, ease: "sine.inOut", duration: 0.8 }, "<")
@@ -753,22 +759,25 @@ $(function () {
           .to("#value03 .keyword03 .keyword-text", { autoAlpha: 1, ease: "power3.out", duration: 0.8 }, "<")
           .to("#value03 .keyword03", { columnGap: "3vw", ease: "expo.out", duration: 0.8 }, "<");
 
-        /* 3) 자동재생/역재생 트리거 */
         ScrollTrigger.create({
           trigger: "#value03",
           start: "top top",
-          end: () => "+=" + window.innerHeight * 2,
-          onEnter:      () => autoTl.play(0),
-          onEnterBack:  () => autoTl.play(0),
-          onLeaveBack:  () => autoTl.reverse(),
+          end: () => "+=" + window.innerHeight * 2.2,
+          onEnter:     () => autoTl.play(0),
+          onEnterBack: () => autoTl.play(0),
+          onLeaveBack: () => autoTl.reverse(),
           invalidateOnRefresh: true
         });
 
-        // matchMedia 해제 시 정리
         return () => {
           window.__value03Init = false;
-          ScrollTrigger.getAll().forEach(st => st.kill());
-          gsap.globalTimeline.clear();
+          tl1?.kill();
+          autoTl?.kill();
+          // 전역 타임라인 clear()는 금지(다른 섹션까지 영향)
+          ScrollTrigger.getAll().forEach(st => {
+            const el = st.trigger;
+            if (el && (el.id === "value03" || el.matches?.("#value03, #value03 *"))) st.kill();
+          });
         };
       });
 

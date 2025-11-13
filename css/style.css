@@ -218,9 +218,9 @@ html, body { /***height: 100%;***/ font-family: "Pretendard";}
 .section-text .btn-more {display: inline-flex; margin-top: 60px; padding: 12px 20px; align-items: center; gap: 4px; font-size: 16px; color: #858585; border: 1px solid #D6D6D6;} 
 
 
-#value01 {position: relative; min-height: 100svh; background-color: #fff; isolation: isolate;}
-#value02 {position: relative; min-height: 100svh; background-color: #fff; isolation: isolate;}
-#value03 {position: relative; min-height: 100svh; background-color: #fff; isolation: isolate;}
+#value01,
+#value02,
+#value03 {position: relative; min-height: 100svh; background-color: #fff; isolation: isolate; overflow: hidden;}
 
 .value + section{
   position: relative;
@@ -263,17 +263,17 @@ footer  { min-height: 898px; }     /* 하단 여유; 실제 높이에 맞게 조
 .value .keyword-wrap01 .section-title {font-family: "Pretendard"; text-align: center; font-size: clamp(40px, 6vw, 96px); font-weight: 700;}
 #value01 .keyword01,
 #value02 .keyword02,
-#value03 .keyword03 {display: flex; justify-content: center; align-items: center; gap: 3vw; will-change: transform, opacity; z-index: 20;}
+#value03 .keyword03 {display: flex; justify-content: center; align-items: center; gap: 3vw; will-change: transform, opacity; z-index: 30;}
 .value .keyword01 p,
 .value .keyword02 p,
 .value .keyword03 p {font-size: clamp(36px, 6vw, 96px); font-weight: 600;}
 .value .keyword01 .line,
 .value .keyword02 .line,
 .value .keyword03 .line {width: 8vw; height: 1px; background-color: #111;}
+#value01 .video-wrap01,
+#value02 .video-wrap02,
+#value03 .video-wrap03 {position: absolute; left: 0; right: 0; top: 100svh; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; z-index: 20; will-change: transform, top;}
 
-.value .video-wrap01,
-.value .video-wrap02,
-.value .video-wrap03 {/*position: absolute; top: 0;*/ width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; z-index: 20; will-change: transform;}
 .value .video-background {position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 0;}
 .value .video-text {position: absolute; z-index: 20;}
 .value .video-title {text-align: center; font-size: 72px; font-weight: 600; line-height: 1; color: #fff;}
