@@ -304,33 +304,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
 (function () {
   const openBtn  = document.querySelector('.mobile-top .mo-nav');
-  const wrapper  = document.querySelector('.only-mo.mo-menu-wrapper'); // 부모 래퍼
-  const menu     = document.querySelector('.mo-menu-wrapper .mo-menu-container'); // 네 CSS가 걸리는 대상
+  const wrapper  = document.querySelector('.only-mo.mo-menu-wrapper');
+  const menu     = document.querySelector('.mo-menu-wrapper .mo-menu-container');
   const closeBtn = document.querySelector('.mo-menu-wrapper .mo-menu-container .mo-close');
   const overlay  = document.querySelector('.background-b');
   if (!openBtn || !menu || !closeBtn || !overlay || !wrapper) return;
 
-  // ⬇️ 추가: 상단 바
   const topBar = wrapper.querySelector('.mobile-top');
 
-  // Lenis 인스턴스(프로젝트에 맞게 필요시 수정)
   const lenis =
-    window.lenis ||
-    window.__lenis ||
-    (window.Lenis && window.Lenis.instance) ||
-    null;
+    window.lenis || window.__lenis || (window.Lenis && window.Lenis.instance) || null;
 
-  const getY = () => {
-    if (lenis && typeof lenis.scroll === 'number') return lenis.scroll;
-    return window.scrollY || document.documentElement.scrollTop || 0;
-  };
+  const getY = () => (lenis && typeof lenis.scroll === 'number')
+    ? lenis.scroll
+    : (window.scrollY || document.documentElement.scrollTop || 0);
 
   let locked = false;
   let savedY = 0;
   let rafId = 0;
 
-  // 배경 입력 차단(메뉴 내부는 허용)
   function hardBlock(e) {
+    // 메뉴 내부 허용을 제거하지 마세요 (탭/클릭을 위해)
     if (e.target.closest('.mo-menu-container')) return;
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -340,7 +334,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function forceSnapBack() {
     const y = (lenis && typeof lenis.scroll === 'number')
       ? lenis.scroll
-      : window.scrollY || document.documentElement.scrollTop || 0;
+      : (window.scrollY || document.documentElement.scrollTop || 0);
 
     if (lenis && typeof lenis.scrollTo === 'function') {
       lenis.scrollTo(savedY, { immediate: true, lock: true });
@@ -355,33 +349,36 @@ window.addEventListener('DOMContentLoaded', () => {
     rafId = requestAnimationFrame(snapLoop);
   }
 
+  // ✅ 메뉴 내부 제스처 차단용 핸들러 (스크롤/스와이프만 막고 탭/클릭은 통과)
+  function blockMenuGestures(e) {
+    // touchmove / wheel 만 막음 (touchstart/pointerdown 은 건드리지 않음)
+    if (e.type === 'touchmove' || e.type === 'wheel') {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      e.stopPropagation();
+    }
+  }
+
   function lockScroll() {
     if (locked) return;
     locked = true;
 
-    // 현재 스크롤 기억 + Lenis 정지
     savedY = (lenis && typeof lenis.scroll === 'number')
       ? lenis.scroll
-      : window.scrollY || document.documentElement.scrollTop || 0;
+      : (window.scrollY || document.documentElement.scrollTop || 0);
     if (lenis && typeof lenis.stop === 'function') lenis.stop();
 
-    // 오버레이는 네 CSS 그대로 active만
     overlay.classList.add('active');
-
-    // 메뉴 활성화 (.active → translateX(0))
     menu.classList.add('active');
 
-    // 래퍼만 잠깐 최상단으로 올려 오버레이보다 위에 보이게
     wrapper.style.position = wrapper.style.position || 'relative';
     wrapper.style.zIndex = '2147483647';
 
-    // 배경 입력 하드 차단 (캡처 단계)
-    document.addEventListener('wheel',        hardBlock, { passive: false, capture: true });
-    document.addEventListener('touchmove',    hardBlock, { passive: false, capture: true });
-    document.addEventListener('pointermove',  hardBlock, { passive: false, capture: true });
-    document.addEventListener('pointerdown',  hardBlock, { passive: false, capture: true });
+    document.addEventListener('wheel',       hardBlock, { passive: false, capture: true });
+    document.addEventListener('touchmove',   hardBlock, { passive: false, capture: true });
+    document.addEventListener('pointermove', hardBlock, { passive: false, capture: true });
+    document.addEventListener('pointerdown', hardBlock, { passive: false, capture: true });
 
-    // 키보드 스크롤 차단
     function keyBlock(e) {
       const tag = (e.target.tagName || '').toLowerCase();
       if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
@@ -393,12 +390,18 @@ window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', keyBlock, { capture: true });
     menu._keyBlock = keyBlock;
 
-    // 혹시라도 움직이면 즉시 원위치
     window.addEventListener('scroll', forceSnapBack, { capture: true });
     rafId = requestAnimationFrame(snapLoop);
 
-    // 오버레이 위 스와이프 체인 방지
     overlay.addEventListener('touchmove', hardBlock, { passive: false });
+
+    // ⬇️⬇️⬇️ 추가: 메뉴 내부 스크롤/스와이프 완전 차단 (탭/클릭은 그대로 동작)
+    menu.addEventListener('touchmove', blockMenuGestures, { passive: false });
+    menu.addEventListener('wheel',      blockMenuGestures, { passive: false });
+    // iOS에서 제스처 자체를 끊어줌 (CSS 변경 없이 인라인만)
+    menu._prevTouchAction = menu.style.touchAction;
+    menu.style.touchAction = 'none';
+    // ⬆️⬆️⬆️
   }
 
   function unlockScroll() {
@@ -424,31 +427,36 @@ window.addEventListener('DOMContentLoaded', () => {
     overlay.classList.remove('active');
     menu.classList.remove('active');
 
-    // 래퍼 인라인만 원복 (네 CSS 다시 100% 적용)
     wrapper.style.zIndex = '';
     if (wrapper.getAttribute('style') && wrapper.style.position === 'relative') {
       wrapper.style.position = '';
     }
 
-    // 상단 바 항상 복원
+    // 상단 바 복원
     if (topBar) topBar.classList.remove('hide');
+
+    // ⬇️⬇️⬇️ 해제: 메뉴 내부 제스처 차단 리스너/스타일 원복
+    menu.removeEventListener('touchmove', blockMenuGestures);
+    menu.removeEventListener('wheel',      blockMenuGestures);
+    if (menu._prevTouchAction !== undefined) {
+      menu.style.touchAction = menu._prevTouchAction;
+      delete menu._prevTouchAction;
+    } else {
+      menu.style.touchAction = '';
+    }
+    // ⬆️⬆️⬆️
   }
 
-  // ★ 클릭 직전에 스크롤 위치로 헤더 숨김 여부 결정 (캡처 단계)
-  function onOpenCapture(e) {
+  function onOpenCapture() {
     if (!topBar) return;
     const y = getY();
-    if (y > 1) {
-      topBar.classList.add('hide');   // 위로 사라짐 (네 CSS 그대로)
-    } else {
-      topBar.classList.remove('hide'); // 최상단이면 그대로
-    }
+    if (y > 1) topBar.classList.add('hide');
+    else topBar.classList.remove('hide');
   }
 
   function openMenu(e) { e?.preventDefault?.(); lockScroll(); }
   function closeMenu(e) { e?.preventDefault?.(); unlockScroll(); }
 
-  // 순서: 캡처 단계에서 헤더 상태 결정 → 기본 open 핸들러로 메뉴 오픈
   openBtn.addEventListener('click', onOpenCapture, { capture: true });
   openBtn.addEventListener('click', openMenu);
   closeBtn.addEventListener('click', closeMenu);
@@ -457,6 +465,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (openBtn.tagName === 'A') openBtn.setAttribute('href', 'javascript:void(0)');
   if (openBtn.tagName === 'BUTTON' && !openBtn.getAttribute('type')) openBtn.setAttribute('type', 'button');
 })();
+
 
 
 
