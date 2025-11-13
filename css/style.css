@@ -150,7 +150,7 @@ html { scroll-behavior: auto; }
 }
 
 
-  .mo-menu-wrapper .mo-menu-container {padding: 123px 30px 36px; display: flex; flex-direction: column; justify-content: space-between; position: fixed; top: 0; right: 0; bottom: 0; width: 280px; height: 100vh; background-color: #fff; overflow: hidden; overflow-y: scroll; z-index: 9999; transform: translateX(280px); transition: all .3s ease-in; box-sizing: border-box;}
+  .mo-menu-wrapper .mo-menu-container {padding: 123px 30px 36px; display: flex; flex-direction: column; justify-content: space-between; position: fixed; top: 0; right: 0; bottom: 0; width: 280px; height: 100svh; background-color: #fff; overflow: hidden; overflow-y: auto; z-index: 9999; transform: translateX(280px); transition: all .3s ease-in; box-sizing: border-box;}
   .mo-menu-wrapper .mo-menu-container.active {transform: translateX(0);}
   .mo-menu-wrapper .mo-menu-container button.mo-close {position: absolute; top: 33px; right: 24px;}
   .mo-menu-wrapper .mo-menu {display: flex; flex-direction: column; gap: 40px;}
